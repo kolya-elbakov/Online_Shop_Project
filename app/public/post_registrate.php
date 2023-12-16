@@ -26,6 +26,7 @@ $psw_repeat = $_POST['psw-repeat'];
 if ($psw_repeat !== $password){
     $errors['repeat-psw'] = 'Пароли не совпадают';
 }
+$password = password_hash($password, PASSWORD_DEFAULT);
 
 if(empty($errors)) {
     $pdo = new PDO("pgsql:host=db;port=5432;dbname=postgres;", "dbuser", "dbpwd");
