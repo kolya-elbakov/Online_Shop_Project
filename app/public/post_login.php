@@ -8,7 +8,6 @@ $email = $_POST['email'];
 if(empty($email)){
     $errors['email'] = 'Введите email';
 }
-if()
 
 $password = $_POST['password'];
 if(empty($password)) {
@@ -22,12 +21,16 @@ if(empty($errors)) {
     $statement->execute(['email' => $email]);
     $res = $statement->fetch();
 
-    if(password_verify($password, $res['password'])) {
-        session_start();
-        $_SESSION['user_id'] = $res['id'];
-        header("Location: /main.php");
+    if($res == 0) {
+        $errors['email'] = 'Пользователя не существует';
     } else {
-        $errors['password'] = 'Неверный пароль';
+        if(password_verify($password, $res['password'])) {
+            session_start();
+            $_SESSION['user_id'] = $res['id'];
+            header("Location: /main.php");
+        } else {
+            $errors['password'] = 'Неверный пароль';
+        }
     }
 }
 
