@@ -21,13 +21,14 @@ if(empty($errors)) {
     $statement->execute(['email' => $email]);
     $res = $statement->fetch();
 
-    if($res == 0) {
+    if(empty($res)) {
         $errors['email'] = 'Пользователя не существует';
     } else {
         if(password_verify($password, $res['password'])) {
+//            setcookie('user_id', $res['id']);
             session_start();
             $_SESSION['user_id'] = $res['id'];
-            header("Location: /main.php");
+            header("Location: /main");
         } else {
             $errors['password'] = 'Неверный пароль';
         }

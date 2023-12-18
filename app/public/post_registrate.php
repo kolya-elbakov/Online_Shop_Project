@@ -1,5 +1,5 @@
 <?php
-print_r($_POST);
+//print_r($_POST);
 
 $errors = [];
 
@@ -38,10 +38,6 @@ if(empty($errors)) {
     $statement->execute(['name' => $name]);
     $res = $statement->fetch();
     print_r($res);
-} else {
-    foreach($errors as $key){
-        echo $key . "<br>";
-    }
 }
 
 require_once './get_registrate.php';
