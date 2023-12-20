@@ -30,9 +30,9 @@ if(empty($errors)) {
             $_SESSION['user_id'] = $res['id'];
             header("Location: /main");
         } else {
-            $errors['password'] = 'Неверный пароль';
+            $errors['password'] = 'Неверный логин или пароль';
         }
     }
 }
 
-require_once './get_login.php';
+require_once './html/login.php';
