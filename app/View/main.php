@@ -19,6 +19,7 @@
         </div>
         <?php endforeach; ?>
     </div>
+    <p><a class="logout" href="/logout">Sign in</a>.</p>
 </div>
 <style>
     body {
@@ -60,5 +61,16 @@
         font-weight: bold;
         font-size: 18px;
         background-color: white;
+    }
+
+    .logout {
+        background-color: darkblue;
+        color: white;
+        padding: 16px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        opacity: 0.9;
     }
 </style>

@@ -30,6 +30,13 @@ if($requestUri === '/registrate'){
     } else {
         echo "Метод $requestMethod не поддерживается для $requestUri";
     }
+} elseif($requestUri === '/logout') {
+    $userController = new UserController();
+    if ($requestMethod === 'GET') {
+        $userController->logout();
+    } else {
+        echo "Метод $requestMethod не поддерживается для $requestUri";
+    }
 } else {
     require_once './html/not_found.php';
 }
