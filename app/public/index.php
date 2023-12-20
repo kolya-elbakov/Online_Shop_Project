@@ -1,26 +1,32 @@
 <?php
+require_once './../Controller/UserController.php';
+require_once './../Controller/MainController.php';
+
 $requestUri = $_SERVER['REQUEST_URI'];
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 
 if($requestUri === '/registrate'){
+    $userController = new UserController();
     if($requestMethod === 'GET'){
-        require_once './html/registrate.php';
+        $userController->getRegistrate();
     } elseif($requestMethod === 'POST') {
-        require_once './handler/registrate.php';
+        $userController->registrate();
     } else {
         echo "Метод $requestMethod не поддерживается для $requestUri";
     }
 } elseif($requestUri === '/login'){
+    $userController = new UserController();
     if($requestMethod === 'GET'){
-        require_once './html/login.php';
+        $userController->getLogin();
     } elseif($requestMethod === 'POST') {
-        require_once './handler/login.php';
+        $userController->login();
     } else {
         echo "Метод $requestMethod не поддерживается для $requestUri";
     }
 } elseif($requestUri === '/main') {
+    $mainController = new MainController();
     if ($requestMethod === 'GET') {
-        require_once './handler/main.php';
+        $mainController->getProducts();
     } else {
         echo "Метод $requestMethod не поддерживается для $requestUri";
     }
