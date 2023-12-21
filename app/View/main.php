@@ -19,7 +19,7 @@
         </div>
         <?php endforeach; ?>
     </div>
-    <p><a class="logout" href="/logout">Sign in</a>.</p>
+    <p><a class="logout" href="/logout">Logout</a>.</p>
 </div>
 <style>
     body {

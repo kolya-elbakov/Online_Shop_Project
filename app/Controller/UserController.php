@@ -1,11 +1,13 @@
 <?php
+
+require_once './../Model/User.php';
 class UserController
 {
-    private PDO $pdo;
+    private User $modelUser;
 
     public function __construct()
     {
-        $this->pdo = new PDO("pgsql:host=db;port=5432;dbname=postgres;", "dbuser", "dbpwd");
+        $this->modelUser = new User();
     }
 
     public function getRegistrate(): void
@@ -22,8 +24,7 @@ class UserController
             $email = $_POST['email'];
             $password = password_hash($password, PASSWORD_DEFAULT);
 
-            $statement = $this->pdo->prepare("INSERT INTO users (name, email, password) VALUES (:name, :email, :password)");
-            $statement->execute(['name' => $name, 'email' => $email, 'password' => $password]);
+            $this->modelUser->create($name, $email, $password);
 
             header("Location: /login");
         }
@@ -68,41 +69,44 @@ class UserController
     public function login()
     {
         $errors = $this->validateLog($_POST);
-        $password = $_POST['password'];
-        $email = $_POST['email'];
 
         if(empty($errors)) {
-            $statement = $this->pdo->prepare("SELECT * FROM users WHERE email = :email");
-            $statement->execute(['email' => $email]);
-            $data = $statement->fetch();
+            $password = $_POST['password'];
+            $email = $_POST['email'];
 
-            if(empty($data)) {
-                $errors['email'] = 'Пользователя не существует';
-            } else {
-                if(password_verify($password, $data['password'])) {
-                    session_start();
-                    $_SESSION['user_id'] = $data['id'];
-                    header("Location: /main");
-                } else {
-                    $errors['password'] = 'Неверный логин или пароль';
-                }
-            }
+            $data = $this->modelUser->getOneByEmail($email);
+            session_start();
+            $_SESSION['user_id'] = $data['id'];
+            header("Location: /main");
         }
         require_once './../View/login.php';
     }
 
-    public function validateLog(array $data): array
+    public function validateLog(array $array): array
     {
         $errors = [];
 
-        $email = $data['email'];
+        $email = $array['email'];
         if(empty($email)){
             $errors['email'] = 'Введите email';
         }
 
-        $password = $data['password'];
+        $password = $array['password'];
         if(empty($password)) {
             $errors['password'] = 'Введите пароль';
+        }
+
+        if(empty($errors)) {
+            $password = $_POST['password'];
+            $email = $_POST['email'];
+
+            $data = $this->modelUser->getOneByEmail($email);
+
+            if(empty($data)) {
+                $errors['email'] = 'Пользователя не существует';
+            } elseif(!password_verify($password, $data['password'])) {
+                $errors['password'] = 'Неверный логин или пароль';
+            }
         }
         return $errors;
     }
