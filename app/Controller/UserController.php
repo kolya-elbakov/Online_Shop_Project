@@ -1,6 +1,5 @@
 <?php
 
-require_once './../Model/User.php';
 class UserController
 {
     private User $modelUser;

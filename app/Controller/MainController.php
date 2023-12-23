@@ -1,5 +1,5 @@
 <?php
-require_once './../Model/Product.php';
+
 class MainController
 {
     private Product $productModel;

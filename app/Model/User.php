@@ -1,13 +1,7 @@
 <?php
 
-class User
+class User extends Model
 {
-    private PDO $pdo;
-
-    public function __construct()
-    {
-        $this->pdo = new PDO("pgsql:host=db;port=5432;dbname=postgres;", "dbuser", "dbpwd");
-    }
     public function getOneByEmail(string $email)
     {
         $statement = $this->pdo->prepare("SELECT * FROM users WHERE email = :email");

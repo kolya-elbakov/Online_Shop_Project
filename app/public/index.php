@@ -1,6 +1,21 @@
 <?php
-require_once './../Controller/UserController.php';
-require_once './../Controller/MainController.php';
+
+$controllerAutoloader = function (string $className)
+{
+    if(file_exists("./../Controller/$className.php")) {
+        require_once "./../Controller/$className.php";
+    }
+    return false;
+};
+$modelAutoloader = function (string $className)
+{
+    if(file_exists("./../Model/$className.php")) {
+        require_once "./../Model/$className.php";
+    }
+    return false;
+};
+spl_autoload_register($controllerAutoloader);
+spl_autoload_register($modelAutoloader);
 
 $requestUri = $_SERVER['REQUEST_URI'];
 $requestMethod = $_SERVER['REQUEST_METHOD'];

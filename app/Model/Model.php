@@ -1,8 +1,8 @@
 <?php
 
-class DB
+class Model
 {
-    private PDO $pdo;
+    protected PDO $pdo;
 
     public function __construct()
     {
