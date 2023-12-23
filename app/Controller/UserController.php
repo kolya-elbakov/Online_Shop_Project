@@ -44,9 +44,12 @@ class UserController
         $email = $data['email'];
         if(strlen($email) < 4) {
             $errors['email']= 'Email указан неверный';
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors['email'] = 'Email должен содержать @';
         } else {
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $errors['email'] = 'Email должен содержать @';
+            $data1 = $this->modelUser->getOneByEmail($email);
+            if($data1){
+                $errors['email'] = 'Email уже используется';
             }
         }
 
@@ -82,7 +85,7 @@ class UserController
         require_once './../View/login.php';
     }
 
-    public function validateLog(array $array): array
+    private function validateLog(array $array): array
     {
         $errors = [];
 
