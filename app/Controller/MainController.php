@@ -1,7 +1,14 @@
 <?php
 
+namespace Controller;
+
+use Model\Product;
+//use Model\User;
+//use PDO;
+
 class MainController
 {
+
     private Product $productModel;
 
     public function __construct()
@@ -16,7 +23,6 @@ class MainController
             header("Location: /login");
         }
         else {
-            $pdo = new PDO("pgsql:host=db;port=5432;dbname=postgres;", "dbuser", "dbpwd");
             $products = $this->productModel->getAll();
         }
         require_once './../View/main.php';

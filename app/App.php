@@ -1,38 +1,52 @@
 <?php
 
+use Controller\CartController;
+use \Controller\UserController;
+use \Controller\MainController;
+
 class App
 {
     private array $routes = [
         '/registrate' => [
             'GET' => [
-                'class' => 'UserController',
+                'class' => UserController::class,
                 'method' => 'getRegistrate'
             ],
             'POST' => [
-                'class' => 'UserController',
+                'class' => UserController::class,
                 'method' => 'registrate'
             ]
         ],
         '/login' => [
             'GET' => [
-                'class' => 'UserController',
+                'class' => UserController::class,
                 'method' => 'getLogin'
             ],
             'POST' => [
-                'class' => 'UserController',
+                'class' => UserController::class,
                 'method' => 'login'
             ]
         ],
         '/main' => [
             'GET' => [
-                'class' => 'MainController',
+                'class' => MainController::class,
                 'method' => 'getProducts'
             ]
         ],
         '/logout' => [
             'GET' => [
-                'class' => 'UserController',
+                'class' => UserController::class,
                 'method' => 'logout'
+            ]
+        ],
+        '/add-product' => [
+            'GET' => [
+                'class' => CartController::class,
+                'method' => 'getAddProductForm'
+            ],
+            'POST' => [
+                'class' => CartController::class,
+                'method' => 'addProduct'
             ]
         ]
     ];
@@ -53,7 +67,7 @@ class App
                 $method = $handler['method'];
 
                 $obj = new $class();
-                $obj->$method();
+                $obj->$method($_POST);
             } else {
                 echo "Метод $requestMethod не поддерживается для $requestUri";
             }

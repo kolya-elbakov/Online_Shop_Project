@@ -14,6 +14,9 @@
                     <div class="card-footer">
                         <?php echo $product['price']; ?> $
                     </div>
+                    <p><a class="logout" href="/logout">Logout</a>.</p>
+                </div>
+                    </div>
                 </div>
             </a>
         </div>
