@@ -20,7 +20,7 @@ class CartController
         if(!isset($_SESSION['user_id'])) {
             header("Location: /login");
         } else {
-            require_once './../View/add-product.php';
+            require_once './../View/cart.php';
         }
     }
 
@@ -38,7 +38,7 @@ class CartController
             $cartId = $this->cartModel->getUserCart($userId);
             $this->cartProductModel->createCartProduct($cartId, $productId, $quantity);
 
-            header("Location: /add-product");
+            header("Location: /cart");
         }
         require_once './../View/main.php';
     }

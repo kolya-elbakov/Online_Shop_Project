@@ -48,6 +48,16 @@ class App
                 'class' => CartController::class,
                 'method' => 'addProduct'
             ]
+        ],
+        '/cart' => [
+            'GET' => [
+                'class' => CartController::class,
+                'method' => 'getAddProductForm'
+            ],
+            'POST' => [
+                'class' => CartController::class,
+                'method' => 'addProduct'
+            ]
         ]
     ];
 

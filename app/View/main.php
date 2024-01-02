@@ -1,29 +1,41 @@
 <div class="container">
     <h3>Catalog</h3>
+    <div class="Cart">
+        <a href="/cart">
+            <div class="card-header">
+            </div>
+            <img class="card-img-top" src="https://media.istockphoto.com/id/1128229893/ru/%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F/%D0%B7%D0%BD%D0%B0%D1%87%D0%BE%D0%BA-%D0%BA%D0%BE%D1%80%D0%B7%D0%B8%D0%BD%D1%8B-%D0%B4%D0%BB%D1%8F-%D0%BF%D0%BE%D0%BA%D1%83%D0%BF%D0%BE%D0%BA.jpg?s=612x612&w=0&k=20&c=siJWgewo6SkHV9H0PI5Wwn6E-dJLal2yWTMCNtqwQ5M="
+                 alt="Card image" width="50" height="50">
+    </div>
     <div class="card-deck">
         <?php foreach($products as $product): ?>
         <div class="card text-center">
-            <a href="#">
+            <a href="">
                 <div class="card-header">
-                    Hit!
                 </div>
-                <img class="card-img-top" src="<?php echo $product['link']; ?>" alt="Card image">
+                <img class="card-img-top" src="<?php echo $product['link']; ?>" alt="Card image" width="600" height="300">
                 <div class="card-body">
-                    <p class="card-text text-muted">Category name</p>
+                    <p class="card-text text-muted">Name</p>
                     <a href="#"><h5 class="card-title"><?php echo $product['name'], $product['model'];?></h5></a>
                     <div class="card-footer">
                         <?php echo $product['price']; ?> $
                     </div>
-                    <p><a class="logout" href="/logout">Logout</a>.</p>
                 </div>
-                    </div>
+                <div class="add">
+                    <form action="/add-product" method="post">
+                        <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                        <input type="hidden" name="quantity" value="">
+                        <p><a class="Addtocart" href="/cart">Add to cart</a></p>
+                    </form>
                 </div>
-            </a>
+        </div>
         </div>
         <?php endforeach; ?>
-    </div>
-    <p><a class="logout" href="/logout">Logout</a>.</p>
 </div>
+    <p><a class="logout" href="/logout">Logout</a></p>
+</div>
+
+
 <style>
     body {
         font-style: sans-serif;
@@ -50,14 +62,18 @@
         transition: 0.2s;
     }
 
+    .card-title {
+        font-size: 20px;
+    }
+
     .card-header {
-        font-size: 13px;
+        font-size: 19px;
         color: gray;
         background-color: white;
     }
 
     .text-muted {
-        font-size: 11px;
+        font-size: 14px;
     }
 
     .card-footer{
@@ -73,7 +89,22 @@
         margin: 8px 0;
         border: none;
         cursor: pointer;
-        width: 100%;
         opacity: 0.9;
+        float: right;
+    }
+
+    .Addtocart {
+        background-color: black;
+        color: white;
+        padding: 16px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 50%;
+        opacity: 0.9;
+    }
+
+    .Cart {
+        float: right;
     }
 </style>
