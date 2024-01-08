@@ -42,4 +42,9 @@ class CartController
         }
         require_once './../View/main.php';
     }
+
+    public function checkout()
+    {
+        echo 'Заказ успешно оформлен';
+    }
 }

@@ -44,7 +44,7 @@
             <div class="circle"></div>
 
             <div class="card-inner login">
-                <form action="/add-product" method="post">
+                <form action="/cart" method="post">
 
                     <div class="input-box">
                         <input type="text" name="product_id" placeholder="Product-id">
@@ -57,9 +57,9 @@
                         <label style="color: red"></label>
                         <i class="fa fa-lock"></i>
                     </div>
-
-                    <button type="submit">Checkout</button>
-
+                </form>
+                <form action="/order" method="post">
+                    <button type="submit" href="/Order">Checkout</button>
                 </form>
             </div>
 
@@ -90,7 +90,7 @@
 
     .card {
         width: 300px;
-        height: 400px;
+        height: 220px;
         margin-top: 200px;
         background-color: #2C3333 !important;
         transition: all 0.2s;
@@ -100,7 +100,7 @@
 
     .card-inner {
         width: inherit;
-        height: inherit;
+        height: 30px;
         background: rgba(255,255,255,.05);
         box-shadow: 0 0 10px rgba(0,0,0,0.25);
         backdrop-filter: blur(10px);
@@ -153,8 +153,9 @@
     .login {
         position: relative;
         width: 350px;
+        height: 220px;
         padding: 30px;
-        height: fit-content;
+        /*height: fit-content;*/
         background-color: rgba(255, 255, 255, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.5);
         border-radius: 15px;

@@ -22,10 +22,9 @@
                     </div>
                 </div>
                 <div class="add">
-                    <form action="/add-product" method="post">
+                    <form action="/cart" method="post">
                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                        <input type="hidden" name="quantity" value="">
-                        <p><a class="Addtocart" href="/cart">Add to cart</a></p>
+                        <p><a class="addToCart" href="/cart">Add to cart</a></p>
                     </form>
                 </div>
         </div>
@@ -93,7 +92,7 @@
         float: right;
     }
 
-    .Addtocart {
+    .addToCart {
         background-color: black;
         color: white;
         padding: 16px 20px;
