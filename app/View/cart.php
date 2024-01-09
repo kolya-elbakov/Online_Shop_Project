@@ -48,17 +48,17 @@
 
                     <div class="input-box">
                         <input type="text" name="product_id" placeholder="Product-id">
-                        <label style="color: red"></label>
+                        <label style="color: red"><?php echo $errors['product_id'] ?? ''; ?></label>
                         <i class="fa fa-envelope"></i>
                     </div>
 
                     <div class="input-box">
                         <input type="text" name="quantity" placeholder="Quantity">
-                        <label style="color: red"></label>
+                        <label style="color: red"><?php echo $errors['quantity'] ?? ''; ?></label>
                         <i class="fa fa-lock"></i>
                     </div>
-                </form>
-                <form action="/order" method="post">
+<!--                </form>-->
+<!--                <form action="/order" method="post">-->
                     <button type="submit" href="/Order">Checkout</button>
                 </form>
             </div>

@@ -26,11 +26,11 @@ class CartController
 
     public function addProduct(array $data)
     {
-//        print_r($data);
-        session_start();
-        if(!isset($_SESSION['user_id'])) {
-            header("Location: /login");
-        } else {
+        $errors = $this->validateAdd($_POST);
+
+        if(empty($errors)) {
+
+            session_start();
             $userId = $_SESSION['user_id'];
             $productId = $data['product_id'];
             $quantity = $data['quantity'];
@@ -38,13 +38,24 @@ class CartController
             $cartId = $this->cartModel->getUserCart($userId);
             $this->cartProductModel->createCartProduct($cartId, $productId, $quantity);
 
-            header("Location: /cart");
+            header("Location: /order");
         }
-        require_once './../View/main.php';
+        require_once './../View/cart.php';
     }
 
-    public function checkout()
+    public function validateAdd(array $data): array
     {
-        echo 'Заказ успешно оформлен';
+        $errors = [];
+
+        $productId = $data['product_id'];
+        if($productId < 1) {
+            $errors['product_id'] = 'Не верное значение';
+        }
+
+        $quantity = $data['quantity'];
+        if($quantity < 1) {
+            $errors['quantity'] = 'Не верное значение';
+        }
+        return $errors;
     }
 }

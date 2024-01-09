@@ -51,12 +51,6 @@ class App
                 'method' => 'addProduct'
             ]
         ],
-        '/checkout' => [
-            'POST' => [
-                'class' => CartController::class,
-                'method' => 'checkout'
-            ]
-        ],
         '/order' => [
             'GET' => [
                 'class' => OrderController::class,

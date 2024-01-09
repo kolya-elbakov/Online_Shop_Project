@@ -1,3 +1,4 @@
+global$products;
 <div class="container">
     <h3>Catalog</h3>
     <div class="Cart">
@@ -8,7 +9,8 @@
                  alt="Card image" width="50" height="50">
     </div>
     <div class="card-deck">
-        <?php foreach($products as $product): ?>
+        <?php $products = $this->productModel->getAll();
+        foreach($products as $product): ?>
         <div class="card text-center">
             <a href="">
                 <div class="card-header">
