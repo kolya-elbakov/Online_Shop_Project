@@ -14,7 +14,7 @@ class CartController
         $this->cartModel = new Cart();
         $this->cartProductModel = new CartProduct();
     }
-    public function getAddProductForm()
+    public function getCartForm(): void
     {
         session_start();
         if(!isset($_SESSION['user_id'])) {
@@ -24,7 +24,7 @@ class CartController
         }
     }
 
-    public function addProduct(array $data)
+    public function addProduct(array $data): void
     {
         $errors = $this->validateAdd($_POST);
 
@@ -38,9 +38,9 @@ class CartController
             $cartId = $this->cartModel->getUserCart($userId);
             $this->cartProductModel->createCartProduct($cartId, $productId, $quantity);
 
-            header("Location: /order");
+            header("Location: /main");
         }
-        require_once './../View/cart.php';
+        require_once './../View/main.php';
     }
 
     public function validateAdd(array $data): array

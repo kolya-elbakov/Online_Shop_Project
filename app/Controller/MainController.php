@@ -18,13 +18,13 @@ class MainController
 
     public function getProducts()
     {
-//        session_start();
-//        if(!isset($_SESSION['user_id'])) {
-//            header("Location: /login");
-//        }
-//        else {
+        session_start();
+        if(!isset($_SESSION['user_id'])) {
+            header("Location: /login");
+        }
+        else {
             $products = $this->productModel->getAll();
-//        }
+        }
         require_once './../View/main.php';
     }
 }

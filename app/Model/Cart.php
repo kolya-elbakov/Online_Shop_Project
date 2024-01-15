@@ -4,11 +4,25 @@ namespace Model;
 
 class Cart extends Model
 {
-    public function getUserCart(int $userId)
+    public function getUserCart(int $userId): bool|array|string
     {
-        $statement = $this->pdo->prepare("INSERT INTO carts (user_id) VALUES (:user_id)");
+        $cart = $this->getCartByUserId($userId);
+        if(!empty($cart)){
+            return $cart['id'];
+        } else {
+            $statement = $this->pdo->prepare("INSERT INTO carts (user_id) VALUES (:user_id)");
+            if($statement->execute(['user_id' => $userId])){
+                return $this->pdo->lastInsertId();
+            } else {
+                return false;
+            }
+        }
+    }
+    public function getCartByUserId(int $userId): array|false
+    {
+        $statement = $this->pdo->prepare("SELECT * FROM carts WHERE user_id = :user_id");
         $statement->execute(['user_id' => $userId]);
 
-        return $this->pdo->lastInsertId();
+        return $statement->fetch();
     }
 }

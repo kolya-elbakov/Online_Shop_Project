@@ -44,11 +44,7 @@ class App
         '/cart' => [
             'GET' => [
                 'class' => CartController::class,
-                'method' => 'getAddProductForm'
-            ],
-            'POST' => [
-                'class' => CartController::class,
-                'method' => 'addProduct'
+                'method' => 'getCartForm'
             ]
         ],
         '/order' => [
@@ -60,7 +56,18 @@ class App
                 'class' => OrderController::class,
                 'method' => 'getOrderForm'
             ]
+        ],
+        '/add-product' => [
+            'GET' => [
+                'class' => CartController::class,
+                'method' => 'getAddProductForm'
+            ],
+            'POST' => [
+                'class' => CartController::class,
+                'method' => 'addProduct'
+            ]
         ]
+
     ];
 
     public function run()

@@ -1,4 +1,3 @@
-global$products;
 <div class="container">
     <h3>Catalog</h3>
     <div class="Cart">
@@ -9,7 +8,7 @@ global$products;
                  alt="Card image" width="50" height="50">
     </div>
     <div class="card-deck">
-        <?php $products = $this->productModel->getAll();
+        <?php if(!empty($products)){
         foreach($products as $product): ?>
         <div class="card text-center">
             <a href="">
@@ -18,20 +17,25 @@ global$products;
                 <img class="card-img-top" src="<?php echo $product['link']; ?>" alt="Card image" width="600" height="300">
                 <div class="card-body">
                     <p class="card-text text-muted">Name</p>
-                    <a href="#"><h5 class="card-title"><?php echo $product['name'], $product['model'];?></h5></a>
+                    <a href=""><h5 class="card-title"><?php echo $product['name'], $product['model'];?></h5></a>
                     <div class="card-footer">
                         <?php echo $product['price']; ?> $
                     </div>
                 </div>
                 <div class="add">
-                    <form action="/cart" method="post">
+                    <form action="/add-product" method="post">
                         <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                        <p><a class="addToCart" href="/cart">Add to cart</a></p>
+                        <label>
+                            <input type="number" name="quantity">
+                            <label style="color: red"><?php echo $errors['quantity'] ?? ''; ?></label>
+                        </label>
+                        <input type="submit" name="add_to_cart" value="Add to cart">
+<!--                        <p><a class="addToCart" href="/add-product">Add to cart</a></p>-->
                     </form>
                 </div>
         </div>
         </div>
-        <?php endforeach; ?>
+        <?php endforeach;} ?>
 </div>
     <p><a class="logout" href="/logout">Logout</a></p>
 </div>
