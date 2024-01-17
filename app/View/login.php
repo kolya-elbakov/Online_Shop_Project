@@ -65,8 +65,8 @@
                     <button type="submit">LOGIN</button>
 
                     <div class="links">
-                        <a href="#">Forgot password</a>
-                        <a href="#">You don't have an account</a>
+                        <a href="">Forgot password</a>
+                        <a href="/registrate">You don't have an account</a>
                     </div>
 
                 </form>

@@ -3,14 +3,23 @@
 namespace Controller;
 
 use Model\Order;
+use Model\OrderProduct;
+use Model\CartProduct;
+use Model\Cart;
 
 class OrderController
 {
     private Order $modelOrder;
+    private OrderProduct $modelOrderProduct;
+    private CartProduct $cartProductModel;
+    private Cart $cartModel;
 
     public function __construct()
     {
         $this->modelOrder = new Order();
+        $this->modelOrderProduct = new OrderProduct();
+        $this->cartProductModel = new CartProduct();
+        $this->cartModel = new Cart();
     }
 
     public function getOrderForm(): void
@@ -23,19 +32,29 @@ class OrderController
         }
     }
 
-    public function order(): void
+    public function order($data): void
     {
-        $errors = $this->validateOrder($_POST);
+        $errors = $this->validateOrder($data);
 
         if(empty($errors)) {
-            $name = $_POST['name'];
-            $email = $_POST['email'];
-            $city = $_POST['city'];
-            $street = $_POST['street'];
-            $zip = $_POST['zip'];
-            $payment = $_POST['payment'];
+            $name = $data['name'];
+            $email = $data['email'];
+            $city = $data['city'];
+            $street = $data['street'];
+            $zip = $data['zip'];
+            $payment = $data['payment'];
 
-            $this->modelOrder->createOrder($name, $email, $city, $street, $zip, $payment);
+            $orderId = $this->modelOrder->createOrder($name, $email, $city, $street, $zip, $payment);
+            session_start();
+            $userId = $_SESSION['user_id'];
+            $cartId = $this->cartModel->getUserCart($userId);
+            $productsCart = $this->cartProductModel->getProducts($cartId);
+
+            foreach ($productsCart as $product) {
+                $this->modelOrderProduct->createOrderProduct($orderId, $cartId, $product['product_id'], $product['quantity']);
+            }
+
+            $this->cartProductModel->deleteProducts($cartId, $product['product_id']);
 
             header("Location: /successful");
         }

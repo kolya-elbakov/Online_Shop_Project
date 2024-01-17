@@ -66,38 +66,9 @@ class CartController
             if (isset($data['product_id']))
             {
                 $userId = $_SESSION['user_id'];
-                $cartId = $this->cartModel->getUserCart($userId);
-//                $productsCart = $this->cartProductModel->getProducts($cartId);
-
-//                $productsCartInfo = [];
-//                foreach ($productsCart as $elem) {
-//                    $name = $this->productModel->getProductName($elem['product_id']);
-//                    $model = $this->productModel->getProductModel($elem['product_id']);
-//                    $link = $this->productModel->getProductLink($elem['product_id']);
-//                    $price = $this->productModel->getProductPrice($elem['product_id']);
-//
-//                    $productsCartInfo[] = ['name' => $name, 'model' => $model, 'link' => $link, 'price' => $price];
-//                }
-//
-//                $productsCartQuantity = [];
-//                foreach ($productsCart as $elem) {
-//                    $quantity = $this->cartProductModel->getProductQuantity($cartId, $elem['product_id']);
-//                    $productsCartQuantity[] = ['quantity' => $quantity];
-//                }
-//
-//                $productsTotal = [];
-//                $totalPrice = 0;
-//                foreach ($productsCart as $elem) {
-//                    $price = $this->productModel->getProductPrice($elem['product_id']);
-//                    $quantity = $this->cartProductModel->getProductQuantity($cartId, $elem['product_id']);
-//                    $total = $quantity * $price;
-//                    $productsTotal[] = ['total' => $total];
-//
-//                    $totalPrice += $total;
-//                }
-
+                $cart = $this->cartModel->getUserCart($userId);
                 $productId = $data['product_id'];
-                $this->cartProductModel->deleteProducts($cartId, $productId);
+                $this->cartProductModel->deleteProducts($cart, $productId);
             }
             header("Location: /cart");
             require_once './../View/cart.php';

@@ -33,14 +33,14 @@
 
     h1 {
         margin-bottom: 20px;
-        color: #4caf50;
+        color: darkblue;
     }
 
     a {
         display: inline-block;
         margin-top: 20px;
         padding: 10px 20px;
-        background-color: #4caf50;
+        background-color: darkblue;
         color: #fff;
         text-decoration: none;
         border-radius: 4px;
@@ -48,6 +48,6 @@
     }
 
     a:hover {
-        background-color: #45a049;
+        background-color: dodgerblue;
     }
 </style>

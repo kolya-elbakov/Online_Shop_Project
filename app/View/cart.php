@@ -6,6 +6,7 @@
 </head>
 <body>
 <h1>Cart</h1>
+<button><a style="color: white", href="/main">Вернуться на главную</a></button>
 <?php if(!empty($productsCart)){
 foreach ($productsCart as $key => $elem): ?>
 <div class="cart-container">
