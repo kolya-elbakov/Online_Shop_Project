@@ -54,7 +54,7 @@ class App
             ],
             'POST' => [
                 'class' => OrderController::class,
-                'method' => 'getOrderForm'
+                'method' => 'order'
             ]
         ],
         '/add-product' => [
@@ -66,8 +66,19 @@ class App
                 'class' => CartController::class,
                 'method' => 'addProduct'
             ]
+        ],
+        '/delete' => [
+            'POST' => [
+                'class' => CartController::class,
+                'method' => 'deleteProduct'
+            ]
+        ],
+        '/successful' => [
+            'GET' => [
+                'class' => OrderController::class,
+                'method' => 'successForm'
+            ]
         ]
-
     ];
 
     public function run()

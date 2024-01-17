@@ -1,35 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Корзина</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>Cart</title>
+    <link rel="stylesheet" type="text/css" href="">
 </head>
 <body>
+<h1>Cart</h1>
+<?php if(!empty($productsCart)){
+foreach ($productsCart as $key => $elem): ?>
 <div class="cart-container">
-    <h1>Корзина</h1>
+    <form action="/delete" method="POST">
     <div class="product">
-        <img src="product1.jpg" alt="Product 1">
+        <img src="<?php echo $productsCartInfo[$key]['link']; ?>" alt="Product 1">
         <div class="product-info">
-            <h3>Название товара 1</h3>
-            <p>Цена: $50</p>
-            <input type="number" value="1">
-            <button>Удалить</button>
+            <h3><?php echo $productsCartInfo[$key]['name'], $productsCartInfo[$key]['model']; ?></h3>
+            <p>Цена:<?php echo $productsCartInfo[$key]['price']; ?>$</p>
+            <input type="number" value="<?php echo $productsCartQuantity[$key]['quantity']; ?>">
+            <button name="product_id" value="<?php echo $elem['product_id']; ?>">Удалить</button>
+            <div class="total">
+                <h3>Общая стоимость: <?php echo $productsTotal[$key]['total']; ?>$</h3>
+            </div>
         </div>
     </div>
-    <div class="product">
-        <img src="product2.jpg" alt="Product 2">
-        <div class="product-info">
-            <h3>Название товара 2</h3>
-            <p>Цена: $75</p>
-            <input type="number" value="2">
-            <button>Удалить</button>
-        </div>
-    </div>
-    <div class="total">
-        <h3>Общая стоимость: $200</h3>
-        <button>Оформить заказ</button>
-    </div>
+    </form>
 </div>
+<?php endforeach;} ?>
+<tr class="totalprice">
+    <td class="light">Сумма заказа:</td>
+    <td colspan="2">&nbsp;</td>
+    <td colspan="2"><?php if(!empty($totalPrice)){
+        echo $totalPrice; }?>$</span></td>
+</tr>
+<button><a class="Order" href="/order">Оформить заказ</a></button>
+
 </body>
 </html>
 <style>body {
@@ -58,8 +61,8 @@
     }
 
     .product img {
-        width: 100px;
-        height: 100px;
+        width: 200px;
+        height: 200px;
         object-fit: cover;
         margin-right: 20px;
     }
@@ -85,7 +88,7 @@
 
     button {
         padding: 5px 10px;
-        background-color: #007bff;
+        background-color: darkblue;
         color: #fff;
         border: none;
         cursor: pointer;
@@ -101,5 +104,13 @@
 
     button:last-of-type {
         margin-top: 20px;
+    }
+    .Order {
+        padding: 5px 10px;
+        background-color: darkblue;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        float: right;
     }
 </style>

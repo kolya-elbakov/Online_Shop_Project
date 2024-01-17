@@ -18,7 +18,7 @@ class Cart extends Model
             }
         }
     }
-    public function getCartByUserId(int $userId): array|false
+    private function getCartByUserId(int $userId): array|false
     {
         $statement = $this->pdo->prepare("SELECT * FROM carts WHERE user_id = :user_id");
         $statement->execute(['user_id' => $userId]);
