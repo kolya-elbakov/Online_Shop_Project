@@ -6,7 +6,7 @@ class Autoloader
     {
         $autoloader = function (string $className) use ($dir)
         {
-            $path = str_replace('\\', DIRECTORY_SEPARATOR, $className);
+            $path = str_replace('\\', '/', $className); // Controller/CartController
             $path = $dir . '/' . $path . '.php';
             if(file_exists($path)) {
                 require_once $path;

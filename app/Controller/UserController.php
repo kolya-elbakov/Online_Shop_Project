@@ -3,6 +3,8 @@
 namespace Controller;
 
 use Model\User;
+use Request\LoginRequest;
+use Request\RegistrateRequest;
 
 class UserController
 {
@@ -17,14 +19,14 @@ class UserController
     {
         require_once './../View/registrate.php';
     }
-    public function registrate(): void
+    public function registrate(RegistrateRequest $request): void
     {
-        $errors = $this->validateReg($_POST);
+        $errors = $request->validateReg();
 
         if(empty($errors)) {
-            $password = $_POST['psw'];
-            $name = $_POST['name'];
-            $email = $_POST['email'];
+            $password = $request->getPassword();
+            $name = $request->getName();
+            $email = $request->getEmail();
             $password = password_hash($password, PASSWORD_DEFAULT);
 
             $this->modelUser->create($name, $email, $password);
@@ -35,86 +37,24 @@ class UserController
         require_once './../View/registrate.php';
     }
 
-    private function validateReg(array $data): array
-    {
-        $errors = [];
-
-        $name = $data['name'];
-        if(strlen($name) < 2) {
-            $errors['name']= 'Имя указано неверно';
-        }
-
-        $email = $data['email'];
-        if(strlen($email) < 4) {
-            $errors['email']= 'Email указан неверный';
-        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errors['email'] = 'Email должен содержать @';
-        } else {
-            $data1 = $this->modelUser->getOneByEmail($email);
-            if($data1){
-                $errors['email'] = 'Email уже используется';
-            }
-        }
-
-        $password = $data['psw'];
-        if(strlen($password) < 8) {
-            $errors['password'] = 'Пароль должен быть не менее 8 символов';
-        }
-
-        $psw_repeat = $data['psw-repeat'];
-        if ($psw_repeat !== $password){
-            $errors['repeat-psw'] = 'Пароли не совпадают';
-        }
-        return $errors;
-    }
-
     public function getLogin()
     {
         require_once './../View/login.php';
     }
-    public function login()
+    public function login(LoginRequest $request)
     {
-        $errors = $this->validateLog($_POST);
+        $errors = $request->validateLog();
 
         if(empty($errors)) {
-            $password = $_POST['password'];
-            $email = $_POST['email'];
+            $password = $request->getPassword();
+            $email = $request->getEmail();
 
-            $data = $this->modelUser->getOneByEmail($email);
+            $user = $this->modelUser->getOneByEmail($email);
             session_start();
-            $_SESSION['user_id'] = $data['id'];
+            $_SESSION['user_id'] = $user['id'];
             header("Location: /main");
         }
         require_once './../View/login.php';
-    }
-
-    private function validateLog(array $array): array
-    {
-        $errors = [];
-
-        $email = $array['email'];
-        if(empty($email)){
-            $errors['email'] = 'Введите email';
-        }
-
-        $password = $array['password'];
-        if(empty($password)) {
-            $errors['password'] = 'Введите пароль';
-        }
-
-        if(empty($errors)) {
-            $password = $_POST['password'];
-            $email = $_POST['email'];
-
-            $data = $this->modelUser->getOneByEmail($email);
-
-            if(empty($data)) {
-                $errors['email'] = 'Пользователя не существует';
-            } elseif(!password_verify($password, $data['password'])) {
-                $errors['password'] = 'Неверный логин или пароль';
-            }
-        }
-        return $errors;
     }
 
     public function logout(): void

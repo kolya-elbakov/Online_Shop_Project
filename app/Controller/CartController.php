@@ -1,9 +1,12 @@
 <?php
 
 namespace Controller;
+use http\Env\Request;
 use Model\Cart;
 use Model\CartProduct;
 use Model\Product;
+use Request\AddProductRequest;
+use Request\DeleteRequest;
 
 class CartController
 {
@@ -57,34 +60,30 @@ class CartController
         require_once './../View/cart.php';
     }
 
-    public function deleteProduct(array $data): void
+    public function deleteProduct(DeleteRequest $request): void
     {
-        session_start();
-        if (!isset($_SESSION['user_id'])) {
-            header("Location: /login");
-        } else {
-            if (isset($data['product_id']))
-            {
-                $userId = $_SESSION['user_id'];
-                $cart = $this->cartModel->getUserCart($userId);
-                $productId = $data['product_id'];
-                $this->cartProductModel->deleteProducts($cart, $productId);
-            }
+        if ($request->validateDelete())
+        {
+            $userId = $_SESSION['user_id'];
+            $cart = $this->cartModel->getUserCart($userId);
+            $productId = $request->getProductId();
+            $this->cartProductModel->deleteProducts($cart, $productId);
             header("Location: /cart");
-            require_once './../View/cart.php';
+        } else {
+            header("Location: /login");
         }
     }
 
-    public function addProduct(array $data): void
+
+    public function addProduct(AddProductRequest $request): void
     {
-        $errors = $this->validateAdd($_POST);
+        $errors = $request->validateAddProduct();
 
         if(empty($errors)) {
-
             session_start();
             $userId = $_SESSION['user_id'];
-            $productId = $data['product_id'];
-            $quantity = $data['quantity'];
+            $productId = $request->getProductId();
+            $quantity = $request->getQuantity();
 
             $cartId = $this->cartModel->getUserCart($userId);
             $this->cartProductModel->createCartProduct($cartId, $productId, $quantity);
@@ -92,21 +91,5 @@ class CartController
             header("Location: /main");
         }
         require_once './../View/main.php';
-    }
-
-    public function validateAdd(array $data): array
-    {
-        $errors = [];
-
-        $productId = $data['product_id'];
-        if($productId < 1) {
-            $errors['product_id'] = 'Не верное значение';
-        }
-
-        $quantity = $data['quantity'];
-        if($quantity < 1) {
-            $errors['quantity'] = 'Не верное значение';
-        }
-        return $errors;
     }
 }

@@ -6,6 +6,7 @@ use Model\Order;
 use Model\OrderProduct;
 use Model\CartProduct;
 use Model\Cart;
+use Request\OrderRequest;
 
 class OrderController
 {
@@ -32,17 +33,17 @@ class OrderController
         }
     }
 
-    public function order($data): void
+    public function order(OrderRequest $request): void
     {
-        $errors = $this->validateOrder($data);
+        $errors = $request->validateOrder();
 
         if(empty($errors)) {
-            $name = $data['name'];
-            $email = $data['email'];
-            $city = $data['city'];
-            $street = $data['street'];
-            $zip = $data['zip'];
-            $payment = $data['payment'];
+            $name = $request->getName();
+            $email = $request->getEmail();
+            $city = $request->getCity();
+            $street = $request->getStreet();
+            $zip = $request->getZip();
+            $payment = $request->getPayment();
 
             $orderId = $this->modelOrder->createOrder($name, $email, $city, $street, $zip, $payment);
             session_start();
@@ -60,47 +61,6 @@ class OrderController
         }
 
         require_once './../View/order.php';
-    }
-
-    private function validateOrder(array $data): array
-    {
-        $errors = [];
-
-        $name = $data['name'];
-        if(strlen($name) < 2) {
-            $errors['name']= 'Имя указано неверно';
-        }
-
-        $email = $data['email'];
-        if(strlen($email) < 4) {
-            $errors['email']= 'Email указан неверный';
-        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errors['email'] = 'Email должен содержать @';
-        }
-
-        $city = $data['city'];
-        if(strlen($city) < 6) {
-            $errors['city'] = 'Такого города не существует';
-        }
-
-        $words = ['улица', 'проспект', 'площадь'];
-        $street = $data['street'];
-        if(strlen($street) < 5) {
-            $errors['street'] = 'Введите корректный адрес';
-        } else {
-            foreach ($words as $word){
-                if(stripos($street, $word) !== false){
-                    $errors['street'] = 'Адрес не должен содержать слово' . '"'.$word.'"';
-                }
-            }
-        }
-
-        $zip = $data['zip'];
-        if(strlen($zip) < 6) {
-            $errors['zip'] = 'Неверный почтовый индекс';
-        }
-
-        return $errors;
     }
 
     public function successForm(): void

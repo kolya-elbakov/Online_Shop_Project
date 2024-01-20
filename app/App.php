@@ -1,86 +1,15 @@
 <?php
 
 use Controller\CartController;
-use Controller\CheckoutController;
 use Controller\OrderController;
 use \Controller\UserController;
 use \Controller\MainController;
+use Request\RegistrateRequest;
+use Request\Request;
 
 class App
 {
-    private array $routes = [
-        '/registrate' => [
-            'GET' => [
-                'class' => UserController::class,
-                'method' => 'getRegistrate'
-            ],
-            'POST' => [
-                'class' => UserController::class,
-                'method' => 'registrate'
-            ]
-        ],
-        '/login' => [
-            'GET' => [
-                'class' => UserController::class,
-                'method' => 'getLogin'
-            ],
-            'POST' => [
-                'class' => UserController::class,
-                'method' => 'login'
-            ]
-        ],
-        '/main' => [
-            'GET' => [
-                'class' => MainController::class,
-                'method' => 'getProducts'
-            ]
-        ],
-        '/logout' => [
-            'GET' => [
-                'class' => UserController::class,
-                'method' => 'logout'
-            ]
-        ],
-        '/cart' => [
-            'GET' => [
-                'class' => CartController::class,
-                'method' => 'getCartForm'
-            ]
-        ],
-        '/order' => [
-            'GET' => [
-                'class' => OrderController::class,
-                'method' => 'getOrderForm'
-            ],
-            'POST' => [
-                'class' => OrderController::class,
-                'method' => 'order'
-            ]
-        ],
-        '/add-product' => [
-            'GET' => [
-                'class' => CartController::class,
-                'method' => 'getAddProductForm'
-            ],
-            'POST' => [
-                'class' => CartController::class,
-                'method' => 'addProduct'
-            ]
-        ],
-        '/delete' => [
-            'POST' => [
-                'class' => CartController::class,
-                'method' => 'deleteProduct'
-            ]
-        ],
-        '/successful' => [
-            'GET' => [
-                'class' => OrderController::class,
-                'method' => 'successForm'
-            ]
-        ]
-    ];
-
+    private array $routes = [];
     public function run()
     {
         $requestUri = $_SERVER['REQUEST_URI'];
@@ -95,14 +24,52 @@ class App
 
                 $class = $handler['class'];
                 $method = $handler['method'];
+                $requestClass = $handler['request'] ?? Request::class;
 
                 $obj = new $class();
-                $obj->$method($_POST);
+                $request = new $requestClass($_POST);
+                $obj->$method($request);
             } else {
                 echo "Метод $requestMethod не поддерживается для $requestUri";
             }
         } else {
             require_once './../View/not_found.php';
         }
+    }
+
+    public function get(string $route, string $class, string $method, string $requestClass = null): void
+    {
+        $this->routes[$route]['GET'] = [
+            'class' => $class,
+            'method' => $method,
+            'request' => $requestClass
+        ];
+    }
+
+    public function post(string $route, string $class, string $method, string $requestClass = null): void
+    {
+        $this->routes[$route]['POST'] = [
+            'class' => $class,
+            'method' => $method,
+            'request' => $requestClass
+        ];
+    }
+
+    public function put(string $route, string $class, string $method, string $requestClass = null): void
+    {
+        $this->routes[$route]['PUT'] = [
+            'class' => $class,
+            'method' => $method,
+            'request' => $requestClass
+        ];
+    }
+
+    public function delete(string $route, string $class, string $method, string $requestClass = null): void
+    {
+        $this->routes[$route]['DELETE'] = [
+            'class' => $class,
+            'method' => $method,
+            'request' => $requestClass
+        ];
     }
 }
