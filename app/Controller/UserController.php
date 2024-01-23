@@ -19,6 +19,7 @@ class UserController
     {
         require_once './../View/registrate.php';
     }
+
     public function registrate(RegistrateRequest $request): void
     {
         $errors = $request->validateReg();

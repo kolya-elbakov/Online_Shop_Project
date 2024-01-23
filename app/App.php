@@ -1,10 +1,5 @@
 <?php
 
-use Controller\CartController;
-use Controller\OrderController;
-use \Controller\UserController;
-use \Controller\MainController;
-use Request\RegistrateRequest;
 use Request\Request;
 
 class App

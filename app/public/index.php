@@ -12,7 +12,7 @@ use Request\RegistrateRequest;
 
 require_once './../Autoloader.php'; //подключение содержимого другого файла
 
-Autoloader::registrate(dirname(__DIR__));
+Autoloader::registrate(dirname(__DIR__)); //полный путь до директории файлов наших классов
 
 $app = new App();
 
