@@ -4,49 +4,69 @@ namespace Model;
 
 class CartProduct extends Model
 {
+    private int $id;
+    private string $name;
+    private string $model;
+    private int $price;
+    private string $link;
 
-    public function createCartProduct(int $cartId, int $productId, int $quantity): bool
+    public function __construct(int $id, string $name, string $model, int $price, string $link)
     {
-        if($this->isProductById($cartId, $productId)){
-            $this->updateQuantity($cartId, $productId, $quantity);
+        $this->id = $id;
+        $this->name = $name;
+        $this->model = $model;
+        $this->price = $price;
+        $this->link = $link;
+    }
+
+    public static function createCartProduct(int $cartId, int $productId, int $quantity): bool
+    {
+        if(self::isProductById($cartId, $productId)){
+            self::updateQuantity($cartId, $productId, $quantity);
         } else {
-            $statement = $this->pdo->prepare("INSERT INTO cart_products (cart_id, product_id, quantity) VALUES (:cart_id, :product_id, :quantity)");
+            $statement = static::getPdo()->prepare("INSERT INTO cart_products (cart_id, product_id, quantity) VALUES (:cart_id, :product_id, :quantity)");
             return $statement->execute(['cart_id' => $cartId, 'product_id' => $productId, 'quantity' => $quantity]);
         }
        return true;
     }
 
-    private function isProductById(int $cartId, int $productId): bool
+    private static function isProductById(int $cartId, int $productId): bool
     {
-        $statement = $this->pdo->prepare("SELECT * FROM cart_products WHERE cart_id = :cart_id AND product_id = :product_id");
+        $statement = static::getPdo()->prepare("SELECT * FROM cart_products WHERE cart_id = :cart_id AND product_id = :product_id");
         $statement->execute(['cart_id' => $cartId, 'product_id' => $productId]);
 
         return $statement->rowCount() > 0;
     }
 
-    private function updateQuantity(int $cartId, int $productId, int $quantity): bool
+    private static function updateQuantity(int $cartId, int $productId, int $quantity): void
     {
-        $statement = $this->pdo->prepare("UPDATE cart_products SET quantity = quantity + :quantity WHERE cart_id = :cart_id AND product_id = :product_id");
-        return $statement->execute(['cart_id' => $cartId, 'product_id' => $productId, 'quantity' => $quantity]);
+        $statement = static::getPdo()->prepare("UPDATE cart_products SET quantity = quantity + :quantity WHERE cart_id = :cart_id AND product_id = :product_id");
+        $statement->execute(['cart_id' => $cartId, 'product_id' => $productId, 'quantity' => $quantity]);
     }
 
-    public function getProducts(int $cartId): bool|array
+    public static function getProducts(int $cartId): CartProduct|array
     {
-        $statement = $this->pdo->prepare("SELECT * FROM cart_products WHERE cart_id = :cart_id");
+        $statement = static::getPdo()->prepare("SELECT * FROM cart_products WHERE cart_id = :cart_id");
         $statement->execute(['cart_id' => $cartId]);
-        return $statement->fetchAll();
+        $products = $statement->fetchAll();
+
+        $result = [];
+        foreach ($products as $product){
+            $result[] = new self($product['id'], $product['name'], $product['model'], $product['price'], $product['link']);
+        }
+        return $result;
     }
 
-    public function getProductQuantity(int $cartId, int $productId)
+    public static function getProductQuantity(int $cartId, int $productId)
     {
-        $statement = $this->pdo->prepare("SELECT quantity FROM cart_products WHERE cart_id = :cart_id AND product_id = :product_id");
+        $statement = static::getPdo()->prepare("SELECT quantity FROM cart_products WHERE cart_id = :cart_id AND product_id = :product_id");
         $statement->execute(['cart_id' => $cartId, 'product_id' => $productId]);
         return $statement->fetchColumn();
     }
 
-    public function deleteProducts(int $cartId, int $productId): bool
+    public static function deleteProducts(int $cartId, int $productId): bool
     {
-        $statement = $this->pdo->prepare("DELETE FROM cart_products WHERE cart_id = :cart_id AND product_id = :product_id");
+        $statement = static::getPdo()->prepare("DELETE FROM cart_products WHERE cart_id = :cart_id AND product_id = :product_id");
         return $statement->execute(['cart_id' => $cartId, 'product_id' => $productId]);
     }
 

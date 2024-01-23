@@ -6,14 +6,6 @@ use Model\User;
 
 class RegistrateRequest extends Request
 {
-    private User $modelUser;
-
-    public function __construct(array $body)
-    {
-        parent::__construct($body);
-        $this->modelUser = new User();
-    }
-
     public function validateReg()
     {
         $errors = [];
@@ -29,7 +21,7 @@ class RegistrateRequest extends Request
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errors['email'] = 'Email должен содержать @';
         } else {
-            $data1 = $this->modelUser->getOneByEmail($email);
+            $data1 = User::getOneByEmail($email);
             if($data1){
                 $errors['email'] = 'Email уже используется';
             }

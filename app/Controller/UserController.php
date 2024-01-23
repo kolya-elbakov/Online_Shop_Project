@@ -8,13 +8,6 @@ use Request\RegistrateRequest;
 
 class UserController
 {
-    private User $modelUser;
-
-    public function __construct()
-    {
-        $this->modelUser = new User();
-    }
-
     public function getRegistrate(): void
     {
         require_once './../View/registrate.php';
@@ -30,7 +23,7 @@ class UserController
             $email = $request->getEmail();
             $password = password_hash($password, PASSWORD_DEFAULT);
 
-            $this->modelUser->create($name, $email, $password);
+            User::create($name, $email, $password);
 
             header("Location: /login");
         }
@@ -50,7 +43,7 @@ class UserController
             $password = $request->getPassword();
             $email = $request->getEmail();
 
-            $user = $this->modelUser->getOneByEmail($email);
+            $user = User::getOneByEmail($email);
             session_start();
             $_SESSION['user_id'] = $user['id'];
             header("Location: /main");

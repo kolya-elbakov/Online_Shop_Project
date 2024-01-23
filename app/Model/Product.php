@@ -4,41 +4,59 @@ namespace Model;
 
 class Product extends Model
 {
-    public function getAll(): array
+    private int $id;
+    private string $name;
+    private string $model;
+    private int $price;
+    private string $link;
+
+    public function __construct(int $id, string $name, string $model, int $price, string $link)
     {
-        $statement = $this->pdo->query("SELECT * FROM products");
+        $this->id = $id;
+        $this->name = $name;
+        $this->model = $model;
+        $this->price = $price;
+        $this->link = $link;
+    }
+    public static function getAll(): Product|array
+    {
+        $statement = static::getPdo()->query("SELECT * FROM products");
         $products = $statement->fetchAll();
 
-        return $products;
+        $result = [];
+        foreach ($products as $product){
+            $result[] = new self($product['id'], $product['name'], $product['model'], $product['price'], $product['link']);
+        }
+        return $result;
     }
 
-    public function getProductName(int $id)
+    public static function getProductName(int $id)
     {
-        $statement = $this->pdo->prepare("SELECT name FROM products WHERE id = :id");
+        $statement = static::getPdo()->prepare("SELECT name FROM products WHERE id = :id");
         $statement->execute(['id' => $id]);
         $productName = $statement->fetchColumn();
         return $productName;
     }
 
-    public function getProductModel(int $id)
+    public static function getProductModel(int $id)
     {
-        $statement = $this->pdo->prepare("SELECT model FROM products WHERE id = :id");
+        $statement = static::getPdo()->prepare("SELECT model FROM products WHERE id = :id");
         $statement->execute(['id' => $id]);
         $productModel = $statement->fetchColumn();
         return $productModel;
     }
 
-    public function getProductLink(int $id)
+    public static function getProductLink(int $id)
     {
-        $statement = $this->pdo->prepare("SELECT link FROM products WHERE id = :id");
+        $statement = static::getPdo()->prepare("SELECT link FROM products WHERE id = :id");
         $statement->execute(['id' => $id]);
         $productLink = $statement->fetchColumn();
         return $productLink;
     }
 
-    public function getProductPrice(int $id)
+    public static function getProductPrice(int $id)
     {
-        $statement = $this->pdo->prepare("SELECT price FROM products WHERE id = :id");
+        $statement = static::getPdo()->prepare("SELECT price FROM products WHERE id = :id");
         $statement->execute(['id' => $id]);
         $productPrice = $statement->fetchColumn();
         return $productPrice;

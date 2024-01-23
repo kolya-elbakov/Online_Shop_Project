@@ -6,13 +6,6 @@ use Model\User;
 
 class LoginRequest extends Request
 {
-    private User $modelUser;
-
-    public function __construct(array $body)
-    {
-        parent::__construct($body);
-        $this->modelUser = new User();
-    }
     public function validateLog()
     {
         $errors = [];
@@ -31,7 +24,7 @@ class LoginRequest extends Request
             $password = $this->getPassword();
             $email = $this->getEmail();
 
-            $user = $this->modelUser->getOneByEmail($email);
+            $user = User::getOneByEmail($email);
 
             if(empty($this->body)) {
                 $errors['email'] = 'Пользователя не существует';

@@ -10,19 +10,6 @@ use Request\OrderRequest;
 
 class OrderController
 {
-    private Order $modelOrder;
-    private OrderProduct $modelOrderProduct;
-    private CartProduct $cartProductModel;
-    private Cart $cartModel;
-
-    public function __construct()
-    {
-        $this->modelOrder = new Order();
-        $this->modelOrderProduct = new OrderProduct();
-        $this->cartProductModel = new CartProduct();
-        $this->cartModel = new Cart();
-    }
-
     public function getOrderForm(): void
     {
         session_start();
@@ -45,17 +32,17 @@ class OrderController
             $zip = $request->getZip();
             $payment = $request->getPayment();
 
-            $orderId = $this->modelOrder->createOrder($name, $email, $city, $street, $zip, $payment);
+            $orderId = Order::createOrder($name, $email, $city, $street, $zip, $payment);
             session_start();
             $userId = $_SESSION['user_id'];
-            $cartId = $this->cartModel->getUserCart($userId);
-            $productsCart = $this->cartProductModel->getProducts($cartId);
+            $cartId = Cart::getUserCart($userId);
+            $productsCart = CartProduct::getProducts($cartId);
 
             foreach ($productsCart as $product) {
-                $this->modelOrderProduct->createOrderProduct($orderId, $cartId, $product['product_id'], $product['quantity']);
+                OrderProduct::createOrderProduct($orderId, $cartId, $product['product_id'], $product['quantity']);
             }
 
-            $this->cartProductModel->deleteProducts($cartId, $product['product_id']);
+            CartProduct::deleteProducts($cartId, $product['product_id']);
 
             header("Location: /successful");
         }

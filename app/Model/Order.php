@@ -4,10 +4,10 @@ namespace Model;
 
 class Order extends Model
 {
-    public function createOrder(string $name, string $email, string $city, string $street, int $zip, string $payment)
+    public static function createOrder(string $name, string $email, string $city, string $street, int $zip, string $payment): bool|string
     {
-        $statement = $this->pdo->prepare("INSERT INTO orders (name, email, city, street, zip, payment) VALUES (:name, :email, :city, :street, :zip, :payment)");
+        $statement = static::getPdo()->prepare("INSERT INTO orders (name, email, city, street, zip, payment) VALUES (:name, :email, :city, :street, :zip, :payment)");
         $statement->execute(['name' => $name, 'email' => $email, 'city' => $city, 'street' => $street, 'zip' => $zip, 'payment' => $payment]);
-        return $this->pdo->lastInsertId();
+        return static::getPdo()->lastInsertId();
     }
 }
