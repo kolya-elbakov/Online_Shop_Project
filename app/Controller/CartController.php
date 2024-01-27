@@ -7,45 +7,44 @@ use Model\CartProduct;
 use Model\Product;
 use Request\AddProductRequest;
 use Request\DeleteRequest;
+use Service\AuthenticationService;
 
 class CartController
 {
+    private AuthenticationService $authenticationService;
+
+    public function __construct()
+    {
+        $this->authenticationService = new AuthenticationService();
+    }
     public function getCartForm(): void
     {
-        session_start();
-        if(!isset($_SESSION['user_id'])) {
+        $res = $this->authenticationService->check();
+        if(!$res) {
             header("Location: /login");
-        } else {
-            $userId = $_SESSION['user_id'];
-            $cartId = Cart::getUserCart($userId);
-            $productsCart = CartProduct::getProducts($cartId);
+        }
 
-            $productsCartInfo = [];
-            foreach ($productsCart as $elem) {
-                $name = Product::getProductName($elem['product_id']);
-                $model = Product::getProductModel($elem['product_id']);
-                $link = Product::getProductLink($elem['product_id']);
-                $price = Product::getProductPrice($elem['product_id']);
+        $userId = $this->authenticationService->getCurrentUserId();
+        $cart = Cart::getUserCart($userId);
+        $productsCart = CartProduct::getProducts($cart->getId());
 
-                $productsCartInfo[] = ['name' => $name, 'model' => $model, 'link' => $link, 'price' => $price];
-            }
+        $result = ['products' => []];
+        $totalPrice = 0;
+        foreach ($productsCart as $elem) {
+            $productId = $elem->getProductId();
+            $productInfo = Product::getProductInfo($productId);
+            $productLineTotal = $elem->getQuantity() * $productInfo->getPrice();
+            $totalPrice += $productLineTotal;
 
-            $productsCartQuantity = [];
-            foreach ($productsCart as $elem) {
-                $quantity = CartProduct::getProductQuantity($cartId, $elem['product_id']);
-                $productsCartQuantity[] = ['quantity' => $quantity];
-            }
-
-            $productsTotal = [];
-            $totalPrice = 0;
-            foreach ($productsCart as $elem) {
-                $price = Product::getProductPrice($elem['product_id']);
-                $quantity = CartProduct::getProductQuantity($cartId, $elem['product_id']);
-                $total = $quantity * $price;
-                $productsTotal[] = ['total' => $total];
-
-                $totalPrice += $total;
-            }
+            $result['products'][] = [
+                'id' => $productId,
+                'name' => $productInfo->getName(),
+                'model' => $productInfo->getModel(),
+                'link' => $productInfo->getLink(),
+                'price' => $productInfo->getPrice(),
+                'quantity' => $elem->getQuantity(),
+                'total' => $totalPrice
+            ];
         }
         require_once './../View/cart.php';
     }
@@ -57,13 +56,12 @@ class CartController
             $userId = $_SESSION['user_id'];
             $cart = Cart::getUserCart($userId);
             $productId = $request->getProductId();
-            CartProduct::deleteProducts($cart, $productId);
+            CartProduct::deleteProducts($cart->getId(), $productId);
             header("Location: /cart");
         } else {
             header("Location: /login");
         }
     }
-
 
     public function addProduct(AddProductRequest $request): void
     {
@@ -75,8 +73,8 @@ class CartController
             $productId = $request->getProductId();
             $quantity = $request->getQuantity();
 
-            $cartId = Cart::getUserCart($userId);
-            CartProduct::createCartProduct($cartId, $productId, $quantity);
+            $cart = Cart::getUserCart($userId);
+            CartProduct::createCartProduct($cart->getId(), $productId, $quantity);
 
             header("Location: /main");
         }

@@ -14,17 +14,17 @@
             <a href="">
                 <div class="card-header">
                 </div>
-                <img class="card-img-top" src="<?php echo $product['link']; ?>" alt="Card image" width="600" height="300">
+                <img class="card-img-top" src="<?php echo $product->getLink(); ?>" alt="Card image" width="600" height="300">
                 <div class="card-body">
                     <p class="card-text text-muted">Name</p>
-                    <a href=""><h5 class="card-title"><?php echo $product['name'], $product['model'];?></h5></a>
+                    <a href=""><h5 class="card-title"><?php echo $product->getName(), $product->getModel();?></h5></a>
                     <div class="card-footer">
-                        <?php echo $product['price']; ?> $
+                        <?php echo $product->getPrice(); ?> $
                     </div>
                 </div>
                 <div class="add">
                     <form action="/add-product" method="post">
-                        <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                        <input type="hidden" name="product_id" value="<?php echo $product->getId(); ?>">
                         <label>
                             <input type="number" name="quantity">
                             <label style="color: red"><?php echo $errors['quantity'] ?? ''; ?></label>

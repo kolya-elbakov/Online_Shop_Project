@@ -28,8 +28,6 @@ class LoginRequest extends Request
 
             if(empty($this->body)) {
                 $errors['email'] = 'Пользователя не существует';
-            } elseif(!password_verify($password, $user['password'])) {
-                $errors['password'] = 'Неверный логин или пароль';
             }
         }
         return $errors;

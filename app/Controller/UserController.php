@@ -5,9 +5,17 @@ namespace Controller;
 use Model\User;
 use Request\LoginRequest;
 use Request\RegistrateRequest;
+use Service\AuthenticationService;
 
 class UserController
 {
+    private AuthenticationService $authenticationService;
+
+    public function __construct()
+    {
+        $this->authenticationService = new AuthenticationService();
+    }
+
     public function getRegistrate(): void
     {
         require_once './../View/registrate.php';
@@ -24,6 +32,7 @@ class UserController
             $password = password_hash($password, PASSWORD_DEFAULT);
 
             User::create($name, $email, $password);
+            $this->authenticationService->login($email, $password);
 
             header("Location: /login");
         }
@@ -43,20 +52,22 @@ class UserController
             $password = $request->getPassword();
             $email = $request->getEmail();
 
-            $user = User::getOneByEmail($email);
-            session_start();
-            $_SESSION['user_id'] = $user['id'];
-            header("Location: /main");
+            $result = $this->authenticationService->login($email, $password);
+            if($result){
+                header("Location: /main");
+            } else {
+                $errors['email'] = 'Логин или пароль указан не верно';
+            }
         }
         require_once './../View/login.php';
     }
 
     public function logout(): void
     {
-        session_start();
-        if (isset($_SESSION['user_id'])) {
+        $res = $this->authenticationService->check();
+        if($res) {
             session_destroy();
-            header('Location: /login' );
+            header('Location: /login');
         }
     }
 }

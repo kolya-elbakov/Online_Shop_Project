@@ -7,19 +7,19 @@
 <body>
 <h1>Cart</h1>
 <button><a style="color: white", href="/main">Вернуться на главную</a></button>
-<?php if(!empty($productsCart)){
-foreach ($productsCart as $key => $elem): ?>
+<?php if(!empty($result)){
+foreach ($result['products'] as $product): ?>
 <div class="cart-container">
     <form action="/delete" method="POST">
     <div class="product">
-        <img src="<?php echo $productsCartInfo[$key]['link']; ?>" alt="Product 1">
+        <img src="<?php echo $product['link']; ?>" alt="Product 1">
         <div class="product-info">
-            <h3><?php echo $productsCartInfo[$key]['name'], $productsCartInfo[$key]['model']; ?></h3>
-            <p>Цена:<?php echo $productsCartInfo[$key]['price']; ?>$</p>
-            <input type="number" value="<?php echo $productsCartQuantity[$key]['quantity']; ?>">
-            <button name="product_id" value="<?php echo $elem['product_id']; ?>">Удалить</button>
+            <h3><?php echo $product['name'], $product['model']; ?></h3>
+            <p>Цена:<?php echo $product['price']; ?>$</p>
+            <input type="number" value="<?php echo $product['quantity']; ?>">
+            <button name="product_id" value="<?php echo $product['id']; ?>">Удалить</button>
             <div class="total">
-                <h3>Общая стоимость: <?php echo $productsTotal[$key]['total']; ?>$</h3>
+                <h3>Общая стоимость: <?php echo $product['total']; ?>$</h3>
             </div>
         </div>
     </div>

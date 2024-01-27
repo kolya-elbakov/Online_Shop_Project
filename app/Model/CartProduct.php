@@ -5,18 +5,37 @@ namespace Model;
 class CartProduct extends Model
 {
     private int $id;
-    private string $name;
-    private string $model;
-    private int $price;
-    private string $link;
 
-    public function __construct(int $id, string $name, string $model, int $price, string $link)
+    public function getId(): int
+    {
+        return $this->id;
+    }
+    private int $cartId;
+
+    public function getCartId(): int
+    {
+        return $this->cartId;
+    }
+    private int $productId;
+
+    public function getProductId(): int
+    {
+        return $this->productId;
+    }
+    private int $quantity;
+
+    public function getQuantity(): int
+    {
+        return $this->quantity;
+    }
+
+
+    public function __construct(int $id, int $cartId, int $productId, int $quantity)
     {
         $this->id = $id;
-        $this->name = $name;
-        $this->model = $model;
-        $this->price = $price;
-        $this->link = $link;
+        $this->cartId = $cartId;
+        $this->productId = $productId;
+        $this->quantity = $quantity;
     }
 
     public static function createCartProduct(int $cartId, int $productId, int $quantity): bool
@@ -44,7 +63,7 @@ class CartProduct extends Model
         $statement->execute(['cart_id' => $cartId, 'product_id' => $productId, 'quantity' => $quantity]);
     }
 
-    public static function getProducts(int $cartId): CartProduct|array
+    public static function getProducts(int $cartId): array
     {
         $statement = static::getPdo()->prepare("SELECT * FROM cart_products WHERE cart_id = :cart_id");
         $statement->execute(['cart_id' => $cartId]);
@@ -52,7 +71,7 @@ class CartProduct extends Model
 
         $result = [];
         foreach ($products as $product){
-            $result[] = new self($product['id'], $product['name'], $product['model'], $product['price'], $product['link']);
+            $result[] = new self($product['id'], $product['cart_id'], $product['product_id'], $product['quantity']);
         }
         return $result;
     }

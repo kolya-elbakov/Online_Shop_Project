@@ -5,11 +5,31 @@ namespace Model;
 class User extends Model
 {
     private int $id;
-    private string $name;
-    private string $email;
-    private int $password;
 
-    public function __construct(int $id, string $name, string $email, int $password)
+    public function getId(): int
+    {
+        return $this->id;
+    }
+    private string $name;
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+    private string $email;
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+    private string $password;
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function __construct(int $id, string $name, string $email, string $password)
     {
         $this->id = $id;
         $this->name = $name;
@@ -32,4 +52,5 @@ class User extends Model
         $statement = static::getPdo()->prepare("INSERT INTO users (name, email, password) VALUES (:name, :email, :password)");
         $statement->execute(['name' => $name, 'email' => $email, 'password' => $password]);
     }
+
 }

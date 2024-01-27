@@ -7,13 +7,21 @@ use Model\OrderProduct;
 use Model\CartProduct;
 use Model\Cart;
 use Request\OrderRequest;
+use Service\AuthenticationService;
 
 class OrderController
 {
+    private AuthenticationService $authenticationService;
+
+    public function __construct()
+    {
+        $this->authenticationService = new AuthenticationService();
+    }
+
     public function getOrderForm(): void
     {
-        session_start();
-        if (!isset($_SESSION['user_id'])) {
+        $res = $this->authenticationService->check();
+        if(!$res) {
             header("Location: /login");
         } else {
             require_once './../View/order.php';
@@ -35,14 +43,15 @@ class OrderController
             $orderId = Order::createOrder($name, $email, $city, $street, $zip, $payment);
             session_start();
             $userId = $_SESSION['user_id'];
-            $cartId = Cart::getUserCart($userId);
-            $productsCart = CartProduct::getProducts($cartId);
+            $cart = Cart::getUserCart($userId);
+            $productsCart = CartProduct::getProducts($cart->getId());
 
             foreach ($productsCart as $product) {
-                OrderProduct::createOrderProduct($orderId, $cartId, $product['product_id'], $product['quantity']);
+                $productId = $product->getProductId();
+                OrderProduct::createOrderProduct($orderId, $cart->getId(), $productId, $product->getQuantity());
             }
 
-            CartProduct::deleteProducts($cartId, $product['product_id']);
+            CartProduct::deleteProducts($cart->getId(), $productId);
 
             header("Location: /successful");
         }
