@@ -7,8 +7,8 @@
 <body>
 <h1>Cart</h1>
 <button><a style="color: white", href="/main">Вернуться на главную</a></button>
-<?php if(!empty($result)){
-foreach ($result['products'] as $product): ?>
+<?php if(!empty($viewData)){
+foreach ($viewData['products'] as $product): ?>
 <div class="cart-container">
     <form action="/delete" method="POST">
     <div class="product">
@@ -29,8 +29,8 @@ foreach ($result['products'] as $product): ?>
 <tr class="totalprice">
     <td class="light">Сумма заказа:</td>
     <td colspan="2">&nbsp;</td>
-    <td colspan="2"><?php if(!empty($totalPrice)){
-        echo $totalPrice; }?>$</span></td>
+    <td colspan="2"><?php if(!empty($viewData)){
+        echo $viewData['total']; }?>$</span></td>
 </tr>
 <button><a class="Order" href="/order">Оформить заказ</a></button>
 

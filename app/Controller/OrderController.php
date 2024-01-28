@@ -44,7 +44,7 @@ class OrderController
             session_start();
             $userId = $_SESSION['user_id'];
             $cart = Cart::getUserCart($userId);
-            $productsCart = CartProduct::getProducts($cart->getId());
+            $productsCart = CartProduct::getAllByCartId($cart->getId());
 
             foreach ($productsCart as $product) {
                 $productId = $product->getProductId();

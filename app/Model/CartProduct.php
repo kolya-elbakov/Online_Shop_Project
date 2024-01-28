@@ -63,7 +63,7 @@ class CartProduct extends Model
         $statement->execute(['cart_id' => $cartId, 'product_id' => $productId, 'quantity' => $quantity]);
     }
 
-    public static function getProducts(int $cartId): array
+    public static function getAllByCartId(int $cartId): array
     {
         $statement = static::getPdo()->prepare("SELECT * FROM cart_products WHERE cart_id = :cart_id");
         $statement->execute(['cart_id' => $cartId]);

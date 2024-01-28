@@ -7,6 +7,7 @@ use Model\CartProduct;
 use Model\Product;
 use Request\AddProductRequest;
 use Request\DeleteRequest;
+use Resource\CartResource;
 use Service\AuthenticationService;
 
 class CartController
@@ -26,26 +27,9 @@ class CartController
 
         $userId = $this->authenticationService->getCurrentUserId();
         $cart = Cart::getUserCart($userId);
-        $productsCart = CartProduct::getProducts($cart->getId());
+        $productsCart = CartProduct::getAllByCartId($cart->getId());
+        $viewData = CartResource::format($cart);
 
-        $result = ['products' => []];
-        $totalPrice = 0;
-        foreach ($productsCart as $elem) {
-            $productId = $elem->getProductId();
-            $productInfo = Product::getProductInfo($productId);
-            $productLineTotal = $elem->getQuantity() * $productInfo->getPrice();
-            $totalPrice += $productLineTotal;
-
-            $result['products'][] = [
-                'id' => $productId,
-                'name' => $productInfo->getName(),
-                'model' => $productInfo->getModel(),
-                'link' => $productInfo->getLink(),
-                'price' => $productInfo->getPrice(),
-                'quantity' => $elem->getQuantity(),
-                'total' => $totalPrice
-            ];
-        }
         require_once './../View/cart.php';
     }
 
