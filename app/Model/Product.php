@@ -49,14 +49,14 @@ class Product extends Model
         $this->link = $link;
     }
 
-    public static function getAll(): Product|array
+    public static function getAll(): array
     {
         $statement = static::getPdo()->query("SELECT * FROM products");
         $products = $statement->fetchAll();
 
         $result = [];
         foreach ($products as $product) {
-            $result[] = new self($product['id'], $product['name'], $product['model'], $product['price'], $product['link']);
+            $result[] = self::hydrate($product);
         }
         return $result;
     }
@@ -71,6 +71,11 @@ class Product extends Model
             return null;
         }
 
-        return new self($productInfo['id'], $productInfo['name'], $productInfo['model'], $productInfo['price'], $productInfo['link']);
+        return self::hydrate($productInfo);
+    }
+
+    private static function hydrate($data): Product
+    {
+        return new self($data['id'], $data['name'], $data['model'], $data['price'], $data['link']);
     }
 }

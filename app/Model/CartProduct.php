@@ -71,7 +71,7 @@ class CartProduct extends Model
 
         $result = [];
         foreach ($products as $product){
-            $result[] = new self($product['id'], $product['cart_id'], $product['product_id'], $product['quantity']);
+            $result[] = self::hydrate($product);
         }
         return $result;
     }
@@ -89,5 +89,8 @@ class CartProduct extends Model
         return $statement->execute(['cart_id' => $cartId, 'product_id' => $productId]);
     }
 
-
+    private static function hydrate($product): CartProduct
+    {
+        return new self($product['id'], $product['cart_id'], $product['product_id'], $product['quantity']);
+    }
 }

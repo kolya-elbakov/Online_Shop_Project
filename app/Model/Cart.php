@@ -2,6 +2,8 @@
 
 namespace Model;
 
+use newrelic\DistributedTracePayload;
+
 class Cart extends Model
 {
     private int $id;
@@ -33,7 +35,7 @@ class Cart extends Model
             return null;
         }
 
-        return new Cart($data['id'], $data['user_id']);
+        return self::hydrate($data);
     }
     private static function getCartByUserId(int $userId): Cart|null
     {
@@ -45,6 +47,11 @@ class Cart extends Model
             return null;
         }
 
+        return self::hydrate($data);
+    }
+
+    private static function hydrate($data): Cart
+    {
         return new self($data['id'], $data['user_id']);
     }
 }

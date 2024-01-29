@@ -7,7 +7,7 @@ use Model\CartProduct;
 
 class CartResource
 {
-    public static function format(Cart $cart)
+    public static function format(Cart $cart): array
     {
         $productsCart = CartProduct::getAllByCartId($cart->getId());
 
