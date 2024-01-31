@@ -4,7 +4,6 @@ namespace Controller;
 
 use Model\Cart;
 use Model\CartProduct;
-use Model\Product;
 use Request\AddProductRequest;
 use Request\DeleteRequest;
 use Resource\CartResource;
@@ -25,10 +24,11 @@ class CartController
             header("Location: /login");
         }
 
-        $userId = $this->authenticationService->getCurrentUserId();
+        $userId = $this->authenticationService->getCurrentUserId()->getId();
         $cart = Cart::getUserCart($userId);
         $productsCart = CartProduct::getAllByCartId($cart->getId());
         $viewData = CartResource::format($cart);
+//        var_dump($viewData['count']);die;
 
         require_once './../View/cart.php';
     }

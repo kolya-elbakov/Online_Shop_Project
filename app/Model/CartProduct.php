@@ -29,7 +29,6 @@ class CartProduct extends Model
         return $this->quantity;
     }
 
-
     public function __construct(int $id, int $cartId, int $productId, int $quantity)
     {
         $this->id = $id;
@@ -76,11 +75,12 @@ class CartProduct extends Model
         return $result;
     }
 
-    public static function getProductQuantity(int $cartId, int $productId)
+    public static function getCountProductsByCartId(int $cartId): int
     {
-        $statement = static::getPdo()->prepare("SELECT quantity FROM cart_products WHERE cart_id = :cart_id AND product_id = :product_id");
-        $statement->execute(['cart_id' => $cartId, 'product_id' => $productId]);
-        return $statement->fetchColumn();
+        $statement = static::getPdo()->prepare("SELECT COUNT (DISTINCT product_id) AS count FROM cart_products WHERE cart_id = :cart_id");
+        $statement->execute(['cart_id' => $cartId]);
+        $result = $statement->fetch();
+        return $result['count'];
     }
 
     public static function deleteProducts(int $cartId, int $productId): bool

@@ -4,7 +4,7 @@ namespace Request;
 
 class AddProductRequest extends Request
 {
-    public function validateAddProduct()
+    public function validateAddProduct(): array
     {
         $errors = [];
 

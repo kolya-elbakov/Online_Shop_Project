@@ -45,12 +45,28 @@ class User extends Model
         if(!$data){
             return null;
         }
-        return new self($data['id'], $data['name'], $data['email'], $data['password']);
+        return self::hydrate($data);    }
+
+    public static function getById(int $id): User|null
+    {
+        $statement = static::getPdo()->prepare("SELECT * FROM users WHERE id = :id");
+        $statement->execute(['id' => $id]);
+        $data = $statement->fetch();
+
+        if(!$data){
+            return null;
+        }
+        return self::hydrate($data);
     }
     public static function create(string $name, string $email, string $password): void
     {
         $statement = static::getPdo()->prepare("INSERT INTO users (name, email, password) VALUES (:name, :email, :password)");
         $statement->execute(['name' => $name, 'email' => $email, 'password' => $password]);
+    }
+
+    private static function hydrate($data): User
+    {
+        return new self($data['id'], $data['name'], $data['email'], $data['password']);
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace Resource;
 
+use Model\Cart;
 use Model\CartProduct;
 use Model\Product;
 
@@ -20,7 +21,7 @@ class CartProductResource
             'link' => $product->getLink(),
             'price' => $product->getPrice(),
             'quantity' => $cartProduct->getQuantity(),
-            'total' => $productTotal
+            'total' => $productTotal,
         ];
     }
 }

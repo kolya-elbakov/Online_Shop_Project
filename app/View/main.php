@@ -4,8 +4,11 @@
         <a href="/cart">
             <div class="card-header">
             </div>
-            <img class="card-img-top" src="https://media.istockphoto.com/id/1128229893/ru/%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F/%D0%B7%D0%BD%D0%B0%D1%87%D0%BE%D0%BA-%D0%BA%D0%BE%D1%80%D0%B7%D0%B8%D0%BD%D1%8B-%D0%B4%D0%BB%D1%8F-%D0%BF%D0%BE%D0%BA%D1%83%D0%BF%D0%BE%D0%BA.jpg?s=612x612&w=0&k=20&c=siJWgewo6SkHV9H0PI5Wwn6E-dJLal2yWTMCNtqwQ5M="
-                 alt="Card image" width="50" height="50">
+            <img class="cart-icon" src="https://media.istockphoto.com/id/1128229893/ru/%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F/%D0%B7%D0%BD%D0%B0%D1%87%D0%BE%D0%BA-%D0%BA%D0%BE%D1%80%D0%B7%D0%B8%D0%BD%D1%8B-%D0%B4%D0%BB%D1%8F-%D0%BF%D0%BE%D0%BA%D1%83%D0%BF%D0%BE%D0%BA.jpg?s=612x612&w=0&k=20&c=siJWgewo6SkHV9H0PI5Wwn6E-dJLal2yWTMCNtqwQ5M="
+                 alt="Card image" width="70" height="70">
+            <div class="cart-quantity">
+                <?php if(isset($viewData['count'])){ echo $viewData['count']; }?>
+            </div>
     </div>
     <div class="card-deck">
         <?php if(!empty($products)){
@@ -26,12 +29,17 @@
                     <form action="/add-product" method="post">
                         <input type="hidden" name="product_id" value="<?php echo $product->getId(); ?>">
                         <label>
-                            <input type="number" name="quantity">
-                            <label style="color: red"><?php echo $errors['quantity'] ?? ''; ?></label>
-                        </label>
+                            <div class="quantity-input">
+                                    <div>
+                                        <button type="submit" name="decrease">-</button>
+                                        <input type="text" name="quantity" value="1">
+                                        <button type="submit" name="increase">+</button>
+                                    </div>
+                                </form>
+                                <label style="color: red"><?php echo $errors['quantity'] ?? ''; ?></label>
+                            </div>
+                        </a>
                         <input type="submit" name="add_to_cart" value="Add to cart">
-<!--                        <p><a class="addToCart" href="/add-product">Add to cart</a></p>-->
-                    </form>
                 </div>
         </div>
         </div>
@@ -98,18 +106,40 @@
         float: right;
     }
 
-    .addToCart {
-        background-color: black;
-        color: white;
-        padding: 16px 20px;
-        margin: 8px 0;
-        border: none;
-        cursor: pointer;
-        width: 50%;
-        opacity: 0.9;
-    }
-
     .Cart {
         float: right;
+    }
+
+    .quantity-input {
+        display: flex;
+        align-items: center;
+        width: 150px;
+    }
+    .quantity-input input {
+        text-align: center;
+        width: 40px;
+        border: 1px solid #ccc;
+    }
+    .quantity-input button {
+        padding: 5px 10px;
+        background-color: darkblue;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .cart-icon {
+        position: relative;
+    }
+
+    .cart-quantity {
+        position: absolute;
+        top: 120px;
+        right: 10px;
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        padding: 10px;
+        font-size: 12px;
     }
 </style>

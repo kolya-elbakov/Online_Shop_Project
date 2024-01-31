@@ -10,6 +10,7 @@ class CartResource
     public static function format(Cart $cart): array
     {
         $productsCart = CartProduct::getAllByCartId($cart->getId());
+        $productsCount = CartProduct::getCountProductsByCartId($cart->getId());
 
         $products = [];
         foreach ($productsCart as $cartProduct) {
@@ -25,6 +26,7 @@ class CartResource
             'cart' => $cart,
             'products' => $products,
             'total' => $totalPrice,
+            'count' => $productsCount
         ];
     }
 }

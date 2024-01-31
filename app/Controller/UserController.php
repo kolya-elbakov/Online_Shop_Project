@@ -61,13 +61,4 @@ class UserController
         }
         require_once './../View/login.php';
     }
-
-    public function logout(): void
-    {
-        $res = $this->authenticationService->check();
-        if($res) {
-            session_destroy();
-            header('Location: /login');
-        }
-    }
 }
