@@ -5,6 +5,7 @@ use Controller\MainController;
 use Controller\OrderController;
 use Controller\UserController;
 use Request\AddProductRequest;
+use Request\SignRequest;
 use Request\DeleteRequest;
 use Request\LoginRequest;
 use Request\OrderRequest;
@@ -32,8 +33,11 @@ $app->get('/cart', CartController::class, 'getCartForm');
 $app->get('/order', OrderController::class, 'getOrderForm');
 $app->post('/order', OrderController::class, 'order', OrderRequest::class);
 
-//$app->get('/add-product', CartController::class, 'getAddProductForm');
-$app->post('/add-product', CartController::class, 'addProduct', AddProductRequest::class);
+$app->get('/add-product', CartController::class, 'getCartForm');
+//$app->post('/add-product', CartController::class, 'addProduct', SignRequest::class);
+
+$app->post('/minus', CartController::class, 'decreaseQuantity', SignRequest::class);
+$app->post('/plus', CartController::class, 'increaseQuantity', SignRequest::class);
 
 $app->post('/delete', CartController::class, 'deleteProduct', DeleteRequest::class);
 

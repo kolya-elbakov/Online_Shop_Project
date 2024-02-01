@@ -25,28 +25,29 @@
                         <?php echo $product->getPrice(); ?> $
                     </div>
                 </div>
-                <div class="add">
-                    <form action="/add-product" method="post">
-                        <input type="hidden" name="product_id" value="<?php echo $product->getId(); ?>">
-                        <label>
-                            <div class="quantity-input">
-                                    <div>
-                                        <button type="submit" name="decrease">-</button>
-                                        <input type="text" name="quantity" value="1">
-                                        <button type="submit" name="increase">+</button>
-                                    </div>
-                                </form>
-                                <label style="color: red"><?php echo $errors['quantity'] ?? ''; ?></label>
-                            </div>
-                        </a>
-                        <input type="submit" name="add_to_cart" value="Add to cart">
-                </div>
+        </div>
+            <div class="quantity-input">
+                <form action="/minus" method="post">
+                    <div>
+                        <input type="hidden" name="product_id" value="<?php echo $product->getId();?>">
+                        <label style="color: red"><?php echo $errors['remove_product'] ?? ''; ?></label>
+                        <button type="submit" name="decrease">-</button>
+                    </div>
+                </form>
+                <form><input type="text" name="quantity" value="<?php echo $quantityInput[$product->getId()] ?? 0;?>"></form>
+                <form action="/plus" method="post">
+                    <div>
+                        <input type="hidden" name="product_id" value="<?php echo $product->getId();?>">
+                        <label style="color: red"><?php echo $errors['remove_product'] ?? ''; ?></label>
+                        <button type="submit" name="increase">+</button>
+                    </div>
+                </form>
         </div>
         </div>
         <?php endforeach;} ?>
 </div>
     <p><a class="logout" href="/logout">Logout</a></p>
-</div>
+
 
 
 <style>

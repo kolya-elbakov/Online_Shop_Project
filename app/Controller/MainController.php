@@ -25,9 +25,21 @@ class MainController
             header("Location: /login");
         } else {
             $products = Product::getAll();
-            $userId = $this->authenticationService->getCurrentUserId()->getId();
-            $cart = Cart::getUserCart($userId);
-            $viewData = CartResource::format($cart);
+        }
+
+        $userId = $this->authenticationService->getCurrentUserId()->getId();
+        $cart = Cart::getUserCart($userId);
+        $viewData = CartResource::format($cart);
+        $quantityInput = [];
+
+        if (!empty($cart)) {
+            $cartProducts = CartProduct::getAllByCartId($cart->getId());
+
+            foreach ($cartProducts as $cartProduct) {
+                $productId = $cartProduct->getProductId();
+                $quantity = $cartProduct->getQuantity();
+                $quantityInput[$productId] = $quantity;
+            }
         }
         require_once './../View/main.php';
     }
