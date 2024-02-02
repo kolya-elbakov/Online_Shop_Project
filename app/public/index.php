@@ -10,7 +10,7 @@ use Request\DeleteRequest;
 use Request\LoginRequest;
 use Request\OrderRequest;
 use Request\RegistrateRequest;
-use Service\AuthenticationService;
+use Service\SessionAuthenticationService;
 
 require_once './../Autoloader.php'; //подключение содержимого другого файла
 
@@ -26,7 +26,7 @@ $app->post('/login', UserController::class, 'login', LoginRequest::class);
 
 $app->get('/main', MainController::class, 'getProducts');
 
-$app->get('/logout', AuthenticationService::class, 'logout');
+$app->get('/logout', SessionAuthenticationService::class, 'logout');
 
 $app->get('/cart', CartController::class, 'getCartForm');
 

@@ -7,16 +7,16 @@ use Model\CartProduct;
 use Model\Product;
 use Request\AddProductRequest;
 use Resource\CartResource;
-use Service\AuthenticationService;
+use Service\SessionAuthenticationService;
 
 
 class MainController
 {
-    private AuthenticationService $authenticationService;
+    private SessionAuthenticationService $authenticationService;
 
     public function __construct()
     {
-        $this->authenticationService = new AuthenticationService();
+        $this->authenticationService = new SessionAuthenticationService();
     }
     public function getProducts(): void
     {

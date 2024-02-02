@@ -7,15 +7,15 @@ use Model\CartProduct;
 use Request\SignRequest;
 use Request\DeleteRequest;
 use Resource\CartResource;
-use Service\AuthenticationService;
+use Service\SessionAuthenticationService;
 
 class CartController
 {
-    private AuthenticationService $authenticationService;
+    private SessionAuthenticationService $authenticationService;
 
     public function __construct()
     {
-        $this->authenticationService = new AuthenticationService();
+        $this->authenticationService = new SessionAuthenticationService();
     }
     public function getCartForm(): void
     {

@@ -7,15 +7,15 @@ use Model\OrderProduct;
 use Model\CartProduct;
 use Model\Cart;
 use Request\OrderRequest;
-use Service\AuthenticationService;
+use Service\SessionAuthenticationService;
 
 class OrderController
 {
-    private AuthenticationService $authenticationService;
+    private SessionAuthenticationService $authenticationService;
 
     public function __construct()
     {
-        $this->authenticationService = new AuthenticationService();
+        $this->authenticationService = new SessionAuthenticationService();
     }
 
     public function getOrderForm(): void

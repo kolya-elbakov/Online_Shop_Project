@@ -4,7 +4,7 @@ namespace Service;
 
 use Model\User;
 
-class AuthenticationService
+class SessionAuthenticationService
 {
     private User $user;
 
@@ -22,6 +22,7 @@ class AuthenticationService
             return $this->user;
         }
 
+        session_start();
         if (isset($_SESSION['user_id']))
         {
             $this->user = User::getById($_SESSION['user_id']);
