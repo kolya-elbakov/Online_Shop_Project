@@ -26,20 +26,23 @@
                     </div>
                 </div>
         </div>
-            <div class="quantity-input">
-                <form action="/minus" method="post">
+            <div class="quantity-button">
+                <form action="/minus" method="POST" class="decrease">
                     <div>
                         <input type="hidden" name="product_id" value="<?php echo $product->getId();?>">
-                        <label style="color: red"><?php echo $errors['remove_product'] ?? ''; ?></label>
-                        <button type="submit" name="decrease">-</button>
+                        <label style="color: red"><?php echo $errors['product'] ?? ''; ?></label>
+                        <button type="submit" name="decrease" class="quantity-button minus">-</button>
                     </div>
                 </form>
-                <form><input type="text" name="quantity" value="<?php echo $quantityInput[$product->getId()] ?? 0;?>"></form>
-                <form action="/plus" method="post">
+                <form><label>
+                        <input type="text" name="quantity" class="quantity" value="<?php echo $quantityInput[$product->getId()] ?? 0;?>">
+                      </label>
+                </form>
+                <form action="/plus" method="POST"  class="increase">
                     <div>
                         <input type="hidden" name="product_id" value="<?php echo $product->getId();?>">
-                        <label style="color: red"><?php echo $errors['remove_product'] ?? ''; ?></label>
-                        <button type="submit" name="increase">+</button>
+                        <label style="color: red"><?php echo $errors['product'] ?? ''; ?></label>
+                        <button type="submit" name="increase" class="quantity-button plus">+</button>
                     </div>
                 </form>
         </div>
@@ -48,7 +51,60 @@
 </div>
     <p><a class="logout" href="/logout">Logout</a></p>
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script>
+    $("document").ready(function() {
+        $('.decrease').submit(function(event) {
+            event.preventDefault();
 
+            var form = $(this);
+            var productId = form.find('input[name="product_id"]').val();
+            var quantityInput = form.closest('.quantity-button').find('input[name="quantity"]');
+            var quantity = parseInt(quantityInput.val());
+
+            quantity--;
+            if (quantity < 0) {
+                quantity = 0;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: form.attr('action'),
+                data: {
+                    product_id: productId,
+                    quantity: quantity
+                },
+                success: function() {
+                    quantityInput.val(quantity);
+                },
+            });
+        });
+
+
+        $('.increase').submit(function(event) {
+            event.preventDefault();
+
+            var form = $(this);
+            var productId = form.find('input[name="product_id"]').val();
+            var quantityInput = form.closest('.quantity-button').find('input[name="quantity"]');
+            var quantity = parseInt(quantityInput.val());
+
+            quantity++;
+
+            $.ajax({
+                type: "POST",
+                url: form.attr('action'),
+                data: {
+                    product_id: productId,
+                    quantity: quantity
+                },
+                success: function () {
+                    quantityInput.val(quantity);
+                },
+            });
+        });
+    });
+</script>
 
 <style>
     body {
@@ -121,7 +177,14 @@
         width: 40px;
         border: 1px solid #ccc;
     }
-    .quantity-input button {
+    .quantity-button plus {
+        padding: 5px 10px;
+        background-color: darkblue;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    .quantity-button minus {
         padding: 5px 10px;
         background-color: darkblue;
         color: white;

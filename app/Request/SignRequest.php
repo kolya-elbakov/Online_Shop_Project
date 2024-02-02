@@ -11,7 +11,7 @@ class SignRequest extends Request
 
         if (empty($productId))
         {
-            $errors['remove_product'] =  "Выберете товар";
+            $errors['product'] =  "Выберете товар";
         }
 
         return $errors;
