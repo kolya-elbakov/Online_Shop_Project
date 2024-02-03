@@ -4,7 +4,7 @@ namespace Service;
 
 use Model\User;
 
-class CookieAuthenticationService
+class CookieAuthenticationService implements AuthenticationInterface
 {
     private User $user;
 

@@ -4,7 +4,7 @@ namespace Service;
 
 use Model\User;
 
-class SessionAuthenticationService
+class SessionAuthenticationService implements AuthenticationInterface
 {
     private User $user;
 
