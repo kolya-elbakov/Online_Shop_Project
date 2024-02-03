@@ -5,16 +5,16 @@ namespace Controller;
 use Model\Cart;
 use Model\CartProduct;
 use Model\Product;
-use Request\AddProductRequest;
+//use Request\AddProductRequest;
 use Resource\CartResource;
-use Service\SessionAuthenticationService;
+use Service\AuthenticationInterface;
 
 
 class MainController
 {
-    private SessionAuthenticationService $authenticationService;
+    private AuthenticationInterface $authenticationService;
 
-    public function __construct(SessionAuthenticationService $authenticationService)
+    public function __construct(AuthenticationInterface $authenticationService)
     {
         $this->authenticationService = $authenticationService;
     }

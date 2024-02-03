@@ -204,6 +204,6 @@
         color: white;
         border-radius: 50%;
         padding: 10px;
-        font-size: 12px;
+        font-size: 15px;
     }
 </style>

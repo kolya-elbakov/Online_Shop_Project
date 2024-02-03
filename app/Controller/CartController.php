@@ -7,13 +7,13 @@ use Model\CartProduct;
 use Request\SignRequest;
 use Request\DeleteRequest;
 use Resource\CartResource;
-use Service\SessionAuthenticationService;
+use Service\AuthenticationInterface;
 
 class CartController
 {
-    private SessionAuthenticationService $authenticationService;
+    private AuthenticationInterface $authenticationService;
 
-    public function __construct(SessionAuthenticationService $authenticationService)
+    public function __construct(AuthenticationInterface $authenticationService)
     {
         $this->authenticationService = $authenticationService;
     }
@@ -35,15 +35,19 @@ class CartController
 
     public function deleteProduct(DeleteRequest $request): void
     {
-        if ($request->validateDelete())
+        $result = $this->authenticationService->check();
+
+        if(!$result){
+            header("Location: /login");
+        }
+
+        if (empty($request->validateDelete()))
         {
-            $userId = $_SESSION['user_id'];
+            $userId = $this->authenticationService->getCurrentUserId()->getId();
             $cart = Cart::getUserCart($userId);
             $productId = $request->getProductId();
             CartProduct::deleteProducts($cart->getId(), $productId);
             header("Location: /cart");
-        } else {
-            header("Location: /login");
         }
     }
 

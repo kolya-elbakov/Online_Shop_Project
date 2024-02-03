@@ -7,13 +7,13 @@ use Model\OrderProduct;
 use Model\CartProduct;
 use Model\Cart;
 use Request\OrderRequest;
-use Service\SessionAuthenticationService;
+use Service\AuthenticationInterface;
 
 class OrderController
 {
-    private SessionAuthenticationService $authenticationService;
+    private AuthenticationInterface $authenticationService;
 
-    public function __construct(SessionAuthenticationService $authenticationService)
+    public function __construct(AuthenticationInterface $authenticationService)
     {
         $this->authenticationService = $authenticationService;
     }
@@ -42,7 +42,7 @@ class OrderController
 
             $orderId = Order::createOrder($name, $email, $city, $street, $zip, $payment);
             session_start();
-            $userId = $_SESSION['user_id'];
+            $userId = $this->authenticationService->getCurrentUserId()->getId();
             $cart = Cart::getUserCart($userId);
             $productsCart = CartProduct::getAllByCartId($cart->getId());
 

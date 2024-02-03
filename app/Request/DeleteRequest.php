@@ -4,10 +4,13 @@ namespace Request;
 
 class DeleteRequest extends Request
 {
-    public function validateDelete(): bool
+    public function validateDelete(): array
     {
-        session_start();
-        return isset($_SESSION['user_id']) && ($this->body['product_id']);
+        $errors = [];
+        if(empty($this->body['product_id'])){
+            $errors['delete'] = 'Ошибка';
+        }
+        return $errors;
     }
 
     public function getProductId()

@@ -21,7 +21,7 @@ class App
                 $method = $handler['method'];
                 $requestClass = $handler['request'] ?? Request::class;
 
-                $authenticationService = new \Service\SessionAuthenticationService();
+                $authenticationService = new \Service\CookieAuthenticationService();
                 $obj = new $class($authenticationService);
                 $request = new $requestClass($_POST);
                 $obj->$method($request);

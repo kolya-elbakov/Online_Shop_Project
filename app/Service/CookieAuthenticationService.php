@@ -37,7 +37,7 @@ class CookieAuthenticationService implements AuthenticationInterface
             return false;
         }
 
-        $_COOKIE['user_id'] = $user->getId();
+        setcookie('user_id', $user->getId(), time() + 7200, '/');
 
         return true;
     }
@@ -46,7 +46,7 @@ class CookieAuthenticationService implements AuthenticationInterface
     {
         $res = self::check();
         if ($res) {
-            setcookie('user_id', $_COOKIE['user_id'], time() - 3600);
+            setcookie('user_id', '', time() - 7200, '/');
             header('Location: /login');
         }
     }

@@ -22,6 +22,10 @@ class SessionAuthenticationService implements AuthenticationInterface
             return $this->user;
         }
 
+        if(!isset($_SESSION))
+        {
+            session_start();
+        }
         if (isset($_SESSION['user_id']))
         {
             $this->user = User::getById($_SESSION['user_id']);
