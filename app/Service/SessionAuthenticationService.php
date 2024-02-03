@@ -22,13 +22,11 @@ class SessionAuthenticationService implements AuthenticationInterface
             return $this->user;
         }
 
-        session_start();
         if (isset($_SESSION['user_id']))
         {
             $this->user = User::getById($_SESSION['user_id']);
             return $this->user;
         }
-
         return null;
     }
 

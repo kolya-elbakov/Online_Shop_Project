@@ -13,9 +13,9 @@ class CartController
 {
     private SessionAuthenticationService $authenticationService;
 
-    public function __construct()
+    public function __construct(SessionAuthenticationService $authenticationService)
     {
-        $this->authenticationService = new SessionAuthenticationService();
+        $this->authenticationService = $authenticationService;
     }
     public function getCartForm(): void
     {
