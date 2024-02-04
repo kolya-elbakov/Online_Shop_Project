@@ -2,7 +2,6 @@
 
 namespace Model;
 
-use newrelic\DistributedTracePayload;
 
 class Cart extends Model
 {

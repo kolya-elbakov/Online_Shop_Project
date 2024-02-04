@@ -5,6 +5,7 @@ namespace Resource;
 use Model\Cart;
 use Model\CartProduct;
 
+
 class CartResource
 {
     public static function format(Cart $cart): array
@@ -18,7 +19,7 @@ class CartResource
         }
 
         $totalPrice = 0;
-        foreach ($products as $product){
+        foreach ($products as $product) {
             $totalPrice += $product['total'];
         }
 

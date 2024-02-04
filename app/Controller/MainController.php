@@ -6,6 +6,7 @@ use Model\Cart;
 use Model\CartProduct;
 use Model\Product;
 //use Request\AddProductRequest;
+use Request\SignRequest;
 use Resource\CartResource;
 use Service\AuthenticationInterface;
 
@@ -38,10 +39,12 @@ class MainController
                 $quantity = $cartProduct->getQuantity();
                 $quantityInput[$productId] = $quantity;
             }
+        } else {
+            Cart::createCart($userId);
+            $cart = Cart::getUserCart($userId);
         }
         $cartResource = CartResource::format($cart);
         $count = $cartResource['count'];
-
         require_once './../View/main.php';
     }
 

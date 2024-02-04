@@ -28,7 +28,6 @@ class CartController
         $cart = Cart::getUserCart($userId);
         $productsCart = CartProduct::getAllByCartId($cart->getId());
         $viewData = CartResource::format($cart);
-//        var_dump($viewData['count']);die;
 
         require_once './../View/cart.php';
     }
