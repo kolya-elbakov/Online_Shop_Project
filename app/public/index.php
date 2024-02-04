@@ -25,6 +25,7 @@ $app->get('/login', UserController::class, 'getLogin');
 $app->post('/login', UserController::class, 'login', LoginRequest::class);
 
 $app->get('/main', MainController::class, 'getProducts');
+$app->get('/count', MainController::class, 'updateCount');
 
 $app->get('/logout', SessionAuthenticationService::class, 'logout');
 

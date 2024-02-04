@@ -26,10 +26,8 @@ class MainController
         } else {
             $products = Product::getAll();
         }
-
         $userId = $this->authenticationService->getCurrentUserId()->getId();
         $cart = Cart::getUserCart($userId);
-        $viewData = CartResource::format($cart);
         $quantityInput = [];
 
         if (!empty($cart)) {
@@ -41,6 +39,20 @@ class MainController
                 $quantityInput[$productId] = $quantity;
             }
         }
+        $cartResource = CartResource::format($cart);
+        $count = $cartResource['count'];
+
         require_once './../View/main.php';
+    }
+
+    public function updateCount(): void
+    {
+        $userId = $this->authenticationService->getCurrentUserId()->getId();
+        $cart = Cart::getUserCart($userId);
+
+        $cartResource = CartResource::format($cart);
+        $updateCount = $cartResource['count'];
+
+        echo $updateCount;
     }
 }
