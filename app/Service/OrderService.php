@@ -4,6 +4,7 @@ namespace Service;
 
 use Model\Cart;
 use Model\CartProduct;
+use Model\Model;
 use Model\Order;
 use Model\OrderProduct;
 use Model\User;
@@ -12,15 +13,27 @@ class OrderService
 {
     public static function create(Order $order, User $user): void
     {
-        $order->save();
+        $pdo = Model::getPdo();
+        $pdo->beginTransaction();
+
         $cart = Cart::getUserCart($user->getId());
+
         $productsCart = CartProduct::getAllByCartId($cart->getId());
         $orderId = $order->getId();
 
-        foreach ($productsCart as $product) {
-            $productId = $product->getProductId();
-            OrderProduct::createOrderProduct($orderId, $cart->getId(), $productId, $product->getQuantity());
+        try {
+            $order->save();
+
+            foreach ($productsCart as $product) {
+                $productId = $product->getProductId();
+                OrderProduct::createOrderProduct($orderId, $cart->getId(), $productId, $product->getQuantity());
+            }
+
+            CartProduct::deleteProductsByCart($cart->getId());
+
+            $pdo->commit();
+        } catch(\Throwable $exception) {
+            $pdo->rollBack();
         }
-        CartProduct::deleteProductsByCart($cart->getId());
     }
 }
