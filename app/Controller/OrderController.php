@@ -3,6 +3,7 @@
 namespace Controller;
 
 use Model\Cart;
+use Model\Order;
 use Request\OrderRequest;
 use Service\AuthenticationInterface;
 use Service\OrderService;
@@ -37,10 +38,9 @@ class OrderController
             $street = $request->getStreet();
             $zip = $request->getZip();
             $payment = $request->getPayment();
-            $userId = $this->authenticationService->getCurrentUserId()->getId();
-            $cart = Cart::getUserCart($userId);
+            $order = new Order($name, $email, $city, $street, $zip, $payment);
 
-            OrderService::create($name, $email, $city, $street, $zip, $payment, $cart);
+            OrderService::create($order, $this->authenticationService->getCurrentUserId());
 
             header("Location: /successful");
         }

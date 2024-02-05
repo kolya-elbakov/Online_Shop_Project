@@ -6,13 +6,16 @@ use Model\Cart;
 use Model\CartProduct;
 use Model\Order;
 use Model\OrderProduct;
+use Model\User;
 
 class OrderService
 {
-    public static function create(string $name, string $email, string $city, string $street, int $zip, string $payment, Cart $cart): void
+    public static function create(Order $order, User $user): void
     {
-        $orderId = Order::createOrder($name, $email, $city, $street, $zip, $payment);
+        $order->save();
+        $cart = Cart::getUserCart($user->getId());
         $productsCart = CartProduct::getAllByCartId($cart->getId());
+        $orderId = $order->getId();
 
         foreach ($productsCart as $product) {
             $productId = $product->getProductId();
