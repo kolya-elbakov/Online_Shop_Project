@@ -2,12 +2,10 @@
 
 namespace Controller;
 
-use Model\Order;
-use Model\OrderProduct;
-use Model\CartProduct;
 use Model\Cart;
 use Request\OrderRequest;
 use Service\AuthenticationInterface;
+use Service\OrderService;
 
 class OrderController
 {
@@ -39,19 +37,10 @@ class OrderController
             $street = $request->getStreet();
             $zip = $request->getZip();
             $payment = $request->getPayment();
-
-            $orderId = Order::createOrder($name, $email, $city, $street, $zip, $payment);
-            session_start();
             $userId = $this->authenticationService->getCurrentUserId()->getId();
             $cart = Cart::getUserCart($userId);
-            $productsCart = CartProduct::getAllByCartId($cart->getId());
 
-            foreach ($productsCart as $product) {
-                $productId = $product->getProductId();
-                OrderProduct::createOrderProduct($orderId, $cart->getId(), $productId, $product->getQuantity());
-            }
-
-            CartProduct::deleteProducts($cart->getId(), $productId);
+            OrderService::create($name, $email, $city, $street, $zip, $payment, $cart);
 
             header("Location: /successful");
         }

@@ -43,6 +43,7 @@ class MainController
             Cart::createCart($userId);
             $cart = Cart::getUserCart($userId);
         }
+
         $cartResource = CartResource::format($cart);
         $count = $cartResource['count'];
         require_once './../View/main.php';
