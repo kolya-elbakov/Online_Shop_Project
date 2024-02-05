@@ -89,10 +89,16 @@ class CartProduct extends Model
         return $result['count'];
     }
 
-    public static function deleteProducts(int $cartId, int $productId): bool
+    public static function deleteProduct(int $cartId, int $productId): bool
     {
         $statement = static::getPdo()->prepare("DELETE FROM cart_products WHERE cart_id = :cart_id AND product_id = :product_id");
         return $statement->execute(['cart_id' => $cartId, 'product_id' => $productId]);
+    }
+
+    public static function deleteProductsByCart(int $cartId): bool
+    {
+        $statement = static::getPdo()->prepare("DELETE FROM cart_products WHERE cart_id = :cart_id");
+        return $statement->execute(['cart_id' => $cartId]);
     }
 
 

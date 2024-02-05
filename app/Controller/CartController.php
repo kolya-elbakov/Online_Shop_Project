@@ -45,7 +45,7 @@ class CartController
             $userId = $this->authenticationService->getCurrentUserId()->getId();
             $cart = Cart::getUserCart($userId);
             $productId = $request->getProductId();
-            CartProduct::deleteProducts($cart->getId(), $productId);
+            CartProduct::deleteProduct($cart->getId(), $productId);
             header("Location: /cart");
         }
     }
@@ -76,7 +76,7 @@ class CartController
                         $newQuantity = $currentQuantity - 1;
                         CartProduct::updateQuantity($cart->getId(), $productId, $newQuantity);
                     } else {
-                        CartProduct::deleteProducts($cart->getId(), $productId);
+                        CartProduct::deleteProduct($cart->getId(), $productId);
                     }
                 }
             }

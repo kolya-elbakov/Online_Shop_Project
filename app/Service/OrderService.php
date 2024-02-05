@@ -17,7 +17,7 @@ class OrderService
         foreach ($productsCart as $product) {
             $productId = $product->getProductId();
             OrderProduct::createOrderProduct($orderId, $cart->getId(), $productId, $product->getQuantity());
-            CartProduct::deleteProducts($cart->getId(), $productId);
         }
+        CartProduct::deleteProductsByCart($cart->getId());
     }
 }
