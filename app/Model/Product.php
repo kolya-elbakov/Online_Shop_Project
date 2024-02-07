@@ -3,6 +3,8 @@
 namespace Model;
 
 
+use Core\Model\Model;
+
 class Product extends Model
 {
     private int $id;

@@ -4,15 +4,17 @@ use Controller\CartController;
 use Controller\MainController;
 use Controller\OrderController;
 use Controller\UserController;
+use Core\App;
+use Core\Autoloader;
+use Core\Service\Authentication\SessionAuthenticationService;
 use Request\AddProductRequest;
-use Request\SignRequest;
 use Request\DeleteRequest;
 use Request\LoginRequest;
 use Request\OrderRequest;
 use Request\RegistrateRequest;
-use Service\SessionAuthenticationService;
+use Request\SignRequest;
 
-require_once './../Autoloader.php'; //подключение содержимого другого файла
+require_once './../Core/Autoloader.php'; //подключение содержимого другого файла
 
 Autoloader::registrate(dirname(__DIR__)); //полный путь до директории файлов наших классов
 

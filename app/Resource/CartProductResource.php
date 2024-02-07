@@ -2,7 +2,6 @@
 
 namespace Resource;
 
-use Model\Cart;
 use Model\CartProduct;
 use Model\Product;
 

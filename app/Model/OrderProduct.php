@@ -2,6 +2,8 @@
 
 namespace Model;
 
+use Core\Model\Model;
+
 class OrderProduct extends Model
 {
     public static function createOrderProduct(int $orderId, int $cartId, int $productId, int $quantity): bool

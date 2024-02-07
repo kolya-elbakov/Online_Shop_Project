@@ -2,6 +2,8 @@
 
 namespace Request;
 
+use Core\Request\Request;
+
 class DeleteRequest extends Request
 {
     public function validateDelete(): array

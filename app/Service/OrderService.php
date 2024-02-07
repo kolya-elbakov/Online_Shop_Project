@@ -1,6 +1,6 @@
 <?php
 
-namespace Service;
+namespace Core\Service;
 
 use Model\Cart;
 use Model\CartProduct;
@@ -14,15 +14,16 @@ class OrderService
     public static function create(Order $order, User $user): void
     {
         $pdo = Model::getPdo();
-        $pdo->beginTransaction();
 
         $cart = Cart::getUserCart($user->getId());
 
         $productsCart = CartProduct::getAllByCartId($cart->getId());
-        $orderId = $order->getId();
 
+
+        $pdo->beginTransaction();
         try {
             $order->save();
+            $orderId = $order->getId();
 
             foreach ($productsCart as $product) {
                 $productId = $product->getProductId();

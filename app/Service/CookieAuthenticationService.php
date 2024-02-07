@@ -1,7 +1,8 @@
 <?php
 
-namespace Service;
+namespace Core\Service;
 
+use Core\Service\Authentication\AuthenticationInterface;
 use Model\User;
 
 class CookieAuthenticationService implements AuthenticationInterface

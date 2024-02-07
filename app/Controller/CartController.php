@@ -2,12 +2,12 @@
 
 namespace Controller;
 
+use Core\Service\Authentication\AuthenticationInterface;
 use Model\Cart;
 use Model\CartProduct;
-use Request\SignRequest;
 use Request\DeleteRequest;
+use Request\SignRequest;
 use Resource\CartResource;
-use Service\AuthenticationInterface;
 
 class CartController
 {

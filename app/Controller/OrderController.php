@@ -2,11 +2,10 @@
 
 namespace Controller;
 
-use Model\Cart;
+use Core\Service\Authentication\AuthenticationInterface;
+use Core\Service\OrderService;
 use Model\Order;
 use Request\OrderRequest;
-use Service\AuthenticationInterface;
-use Service\OrderService;
 
 class OrderController
 {

@@ -2,10 +2,10 @@
 
 namespace Controller;
 
+use Core\Service\Authentication\AuthenticationInterface;
 use Model\User;
 use Request\LoginRequest;
 use Request\RegistrateRequest;
-use Service\AuthenticationInterface;
 
 
 class UserController
@@ -41,11 +41,11 @@ class UserController
         require_once './../View/registrate.php';
     }
 
-    public function getLogin()
+    public function getLogin(): void
     {
         require_once './../View/login.php';
     }
-    public function login(LoginRequest $request): void
+    public function loginn(LoginRequest $request): void
     {
         $errors = $request->validateLog();
 

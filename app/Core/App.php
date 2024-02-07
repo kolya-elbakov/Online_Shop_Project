@@ -1,10 +1,16 @@
 <?php
 
-use Request\Request;
+namespace Core;
+
+use Core\Request\Request;
+use Core\Service\Authentication\SessionAuthenticationService;
+use Core\Service\LoggerService;
+
 
 class App
 {
     private array $routes = [];
+
     public function run(): void
     {
         $requestUri = $_SERVER['REQUEST_URI'];
@@ -21,10 +27,16 @@ class App
                 $method = $handler['method'];
                 $requestClass = $handler['request'] ?? Request::class;
 
-                $authenticationService = new \Service\CookieAuthenticationService();
+                $authenticationService = new SessionAuthenticationService();
                 $obj = new $class($authenticationService);
                 $request = new $requestClass($_POST);
-                $obj->$method($request);
+
+                try {
+                    $obj->$method($request);
+                } catch (Throwable $exception) {
+                    LoggerService::logging($exception);
+                    require_once './../View/500.php';
+                }
             } else {
                 echo "Метод $requestMethod не поддерживается для $requestUri";
             }

@@ -2,6 +2,8 @@
 
 namespace Request;
 
+use Core\Request\Request;
+
 class OrderRequest extends Request
 {
     public function validateOrder()
