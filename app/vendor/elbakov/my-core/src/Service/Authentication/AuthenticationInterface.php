@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Service\Authentication;
+namespace Elbakov\MyCore\Service\Authentication;
 
 use Model\User;
 

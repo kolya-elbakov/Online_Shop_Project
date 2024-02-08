@@ -2,7 +2,7 @@
 
 namespace Controller;
 
-use Core\Service\Authentication\AuthenticationInterface;
+use Elbakov\MyCore\Service\Authentication\AuthenticationInterface;
 use Model\User;
 use Request\LoginRequest;
 use Request\RegistrateRequest;

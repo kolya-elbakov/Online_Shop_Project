@@ -2,7 +2,7 @@
 
 namespace Controller;
 
-use Core\Service\Authentication\AuthenticationInterface;
+use Elbakov\MyCore\Service\Authentication\AuthenticationInterface;
 use Model\Cart;
 use Model\CartProduct;
 use Model\Product;

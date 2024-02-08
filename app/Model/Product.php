@@ -3,7 +3,7 @@
 namespace Model;
 
 
-use Core\Model\Model;
+use Elbakov\MyCore\Model\Model;
 
 class Product extends Model
 {

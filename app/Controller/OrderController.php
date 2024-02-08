@@ -2,8 +2,8 @@
 
 namespace Controller;
 
-use Core\Service\Authentication\AuthenticationInterface;
-use Core\Service\OrderService;
+use Elbakov\MyCore\Service\Authentication\AuthenticationInterface;
+use Service\OrderService;
 use Model\Order;
 use Request\OrderRequest;
 

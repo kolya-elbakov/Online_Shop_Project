@@ -2,7 +2,7 @@
 
 namespace Request;
 
-use Core\Request\Request;
+use Elbakov\MyCore\Request\Request;
 use Model\User;
 
 class RegistrateRequest extends Request

@@ -1,10 +1,10 @@
 <?php
 
-namespace Core\Service;
+namespace Service;
 
+use Elbakov\MyCore\Model\Model;
 use Model\Cart;
 use Model\CartProduct;
-use Model\Model;
 use Model\Order;
 use Model\OrderProduct;
 use Model\User;

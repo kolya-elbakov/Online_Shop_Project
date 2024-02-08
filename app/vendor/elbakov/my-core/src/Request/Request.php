@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Request;
+namespace Elbakov\MyCore\Request;
 
 class Request
 {

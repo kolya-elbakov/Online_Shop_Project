@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Model;
+namespace Elbakov\MyCore\Model;
 
 use PDO;
 

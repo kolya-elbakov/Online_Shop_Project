@@ -2,7 +2,7 @@
 
 namespace Model;
 
-use Core\Model\Model;
+use Elbakov\MyCore\Model\Model;
 
 class User extends Model
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Core;
+namespace Elbakov\MyCore;
 
-use Core\Request\Request;
-use Core\Service\Authentication\SessionAuthenticationService;
-use Core\Service\LoggerService;
+use Elbakov\MyCore\Request\Request;
+use Elbakov\MyCore\Service\Authentication\SessionAuthenticationService;
+use Elbakov\MyCore\Service\LoggerService;
 use Throwable;
 
 

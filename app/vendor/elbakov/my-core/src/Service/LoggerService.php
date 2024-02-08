@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Service;
+namespace Elbakov\MyCore\Service;
 
 use Throwable;
 

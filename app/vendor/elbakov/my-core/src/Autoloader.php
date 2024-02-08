@@ -1,6 +1,6 @@
 <?php
 
-namespace Core;
+namespace Elbakov\MyCore;
 class Autoloader
 {
     public static function registrate(string $dir)
