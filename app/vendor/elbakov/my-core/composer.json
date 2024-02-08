@@ -1,0 +1,15 @@
+{
+    "name": "elbakov/my-core",
+    "autoload": {
+        "psr-4": {
+            "Elbakov\\MyCore\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Kolya Elbakov",
+            "email": "mr.elbakov@mail.ru"
+        }
+    ],
+    "require": {}
+}

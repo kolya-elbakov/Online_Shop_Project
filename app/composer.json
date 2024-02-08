@@ -1,0 +1,5 @@
+{
+    "require": {
+        "elbakov/my-core": "dev-main"
+    }
+}

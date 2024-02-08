@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "8315238cd382f671b98f5fb65ce2fd7f",
+    "packages": [
+        {
+            "name": "elbakov/my-core",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kolya-elbakov/my-core.git",
+                "reference": "6ac3a28b5c8fb310a08588c8873a2684b915e62e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kolya-elbakov/my-core/zipball/6ac3a28b5c8fb310a08588c8873a2684b915e62e",
+                "reference": "6ac3a28b5c8fb310a08588c8873a2684b915e62e",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Elbakov\\MyCore\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Kolya Elbakov",
+                    "email": "mr.elbakov@mail.ru"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/kolya-elbakov/my-core/issues",
+                "source": "https://github.com/kolya-elbakov/my-core/tree/v.1.0"
+            },
+            "time": "2024-02-08T10:03:31+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "elbakov/my-core": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
+}

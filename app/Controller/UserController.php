@@ -45,7 +45,7 @@ class UserController
     {
         require_once './../View/login.php';
     }
-    public function loginn(LoginRequest $request): void
+    public function login(LoginRequest $request): void
     {
         $errors = $request->validateLog();
 

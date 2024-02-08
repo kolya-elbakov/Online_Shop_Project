@@ -1,4 +1,7 @@
 Ошибка в файле: /var/www/html/app/Core/App.php
 Сообщение: Call to undefined method Controller\UserController::login()
 Строка: 36
+Код: 0Ошибка в файле: /var/www/html/app/Controller/MainController.php
+Сообщение: Call to a member function getId() on null
+Строка: 30
 Код: 0
