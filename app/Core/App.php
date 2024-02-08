@@ -5,6 +5,7 @@ namespace Core;
 use Core\Request\Request;
 use Core\Service\Authentication\SessionAuthenticationService;
 use Core\Service\LoggerService;
+use Throwable;
 
 
 class App

@@ -1,0 +1,4 @@
+Ошибка в файле: /var/www/html/app/Core/App.php
+Сообщение: Call to undefined method Controller\UserController::login()
+Строка: 36
+Код: 0
